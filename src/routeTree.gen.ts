@@ -11,6 +11,10 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BaiHocRouteImport } from './routes/bai-hoc'
+import { Route as ChatRouteImport } from './routes/chat'
+import { Route as KetNoiRouteImport } from './routes/ket-noi'
+import { Route as KetQuaRouteImport } from './routes/ket-qua'
+import { Route as KiemTraRouteImport } from './routes/kiem-tra'
 import { Route as TrangChuRouteImport } from './routes/trang-chu'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +27,26 @@ const BaiHocRoute = BaiHocRouteImport.update({
   path: '/bai-hoc',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ChatRoute = ChatRouteImport.update({
+  id: '/chat',
+  path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KetNoiRoute = KetNoiRouteImport.update({
+  id: '/ket-noi',
+  path: '/ket-noi',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KetQuaRoute = KetQuaRouteImport.update({
+  id: '/ket-qua',
+  path: '/ket-qua',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const KiemTraRoute = KiemTraRouteImport.update({
+  id: '/kiem-tra',
+  path: '/kiem-tra',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrangChuRoute = TrangChuRouteImport.update({
   id: '/trang-chu',
   path: '/trang-chu',
@@ -32,30 +56,68 @@ const TrangChuRoute = TrangChuRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
+  '/chat': typeof ChatRoute
+  '/ket-noi': typeof KetNoiRoute
+  '/ket-qua': typeof KetQuaRoute
+  '/kiem-tra': typeof KiemTraRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
+  '/chat': typeof ChatRoute
+  '/ket-noi': typeof KetNoiRoute
+  '/ket-qua': typeof KetQuaRoute
+  '/kiem-tra': typeof KiemTraRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
+  '/chat': typeof ChatRoute
+  '/ket-noi': typeof KetNoiRoute
+  '/ket-qua': typeof KetQuaRoute
+  '/kiem-tra': typeof KiemTraRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/bai-hoc' | '/trang-chu'
+  fullPaths:
+    | '/'
+    | '/bai-hoc'
+    | '/chat'
+    | '/ket-noi'
+    | '/ket-qua'
+    | '/kiem-tra'
+    | '/trang-chu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/bai-hoc' | '/trang-chu'
-  id: '__root__' | '/' | '/bai-hoc' | '/trang-chu'
+  to:
+    | '/'
+    | '/bai-hoc'
+    | '/chat'
+    | '/ket-noi'
+    | '/ket-qua'
+    | '/kiem-tra'
+    | '/trang-chu'
+  id:
+    | '__root__'
+    | '/'
+    | '/bai-hoc'
+    | '/chat'
+    | '/ket-noi'
+    | '/ket-qua'
+    | '/kiem-tra'
+    | '/trang-chu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BaiHocRoute: typeof BaiHocRoute
+  ChatRoute: typeof ChatRoute
+  KetNoiRoute: typeof KetNoiRoute
+  KetQuaRoute: typeof KetQuaRoute
+  KiemTraRoute: typeof KiemTraRoute
   TrangChuRoute: typeof TrangChuRoute
 }
 
@@ -75,6 +137,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BaiHocRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/chat': {
+      id: '/chat'
+      path: '/chat'
+      fullPath: '/chat'
+      preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ket-noi': {
+      id: '/ket-noi'
+      path: '/ket-noi'
+      fullPath: '/ket-noi'
+      preLoaderRoute: typeof KetNoiRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ket-qua': {
+      id: '/ket-qua'
+      path: '/ket-qua'
+      fullPath: '/ket-qua'
+      preLoaderRoute: typeof KetQuaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/kiem-tra': {
+      id: '/kiem-tra'
+      path: '/kiem-tra'
+      fullPath: '/kiem-tra'
+      preLoaderRoute: typeof KiemTraRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trang-chu': {
       id: '/trang-chu'
       path: '/trang-chu'
@@ -88,6 +178,10 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BaiHocRoute: BaiHocRoute,
+  ChatRoute: ChatRoute,
+  KetNoiRoute: KetNoiRoute,
+  KetQuaRoute: KetQuaRoute,
+  KiemTraRoute: KiemTraRoute,
   TrangChuRoute: TrangChuRoute,
 }
 export const routeTree = rootRouteImport
