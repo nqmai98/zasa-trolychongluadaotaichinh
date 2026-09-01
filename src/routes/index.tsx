@@ -27,12 +27,15 @@ function Splash() {
 
   useEffect(() => {
     const tick = setInterval(() => setDot((d) => (d + 1) % 3), 500);
-    const go = setTimeout(() => navigate({ to: "/trang-chu" }), 2600);
-    return () => {
-      clearInterval(tick);
-      clearTimeout(go);
-    };
-  }, [navigate]);
+    return () => clearInterval(tick);
+  }, []);
+
+  useEffect(() => {
+    const go = setTimeout(() => navigate({ to: "/trang-chu", replace: true }), 2600);
+    return () => clearTimeout(go);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
 
   return (
     <div
