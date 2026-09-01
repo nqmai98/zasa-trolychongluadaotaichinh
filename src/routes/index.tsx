@@ -1,24 +1,65 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import logo from "@/assets/zasa-logo.png";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "ZASA — Trợ lý chống lừa đảo tài chính cho người cao tuổi" },
+      {
+        name: "description",
+        content:
+          "ZASA giúp người cao tuổi nhận biết và phòng tránh lừa đảo tài chính trên Zalo: kiểm tra tin nhắn, học bài học ngắn, chat với trợ lý AI.",
+      },
+      { property: "og:title", content: "ZASA — Trợ lý chống lừa đảo tài chính" },
+      {
+        property: "og:description",
+        content: "Kiểm tra tin nhắn lừa đảo, học kỹ năng an toàn và kết nối người thân.",
+      },
+    ],
+  }),
+  component: Splash,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Splash() {
+  const navigate = useNavigate();
+  const [dot, setDot] = useState(0);
+
+  useEffect(() => {
+    const tick = setInterval(() => setDot((d) => (d + 1) % 3), 500);
+    return () => clearInterval(tick);
+  }, []);
+
+  useEffect(() => {
+    const go = setTimeout(() => navigate({ to: "/trang-chu", replace: true }), 2600);
+    return () => clearTimeout(go);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+
   return (
     <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
+      className="mx-auto flex min-h-screen max-w-lg flex-col items-center justify-center px-8 text-center"
+      style={{ background: "var(--gradient-sky)" }}
     >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+      <img src={logo} alt="Logo ZASA" width={768} height={768} className="w-52 animate-pulse" />
+      <h1 className="mt-2 text-6xl font-extrabold tracking-tight text-primary">ZASA</h1>
+      <p className="mt-10 text-xl font-semibold leading-relaxed text-primary">
+        Trợ lý chống lừa đảo tài chính trên Zalo
+        <br />
+        dành cho người cao tuổi
+      </p>
+      <div className="mt-auto pb-12">
+        <p className="text-sm text-muted-foreground">Vui lòng chờ trong giây lát</p>
+        <div className="mt-3 flex justify-center gap-2">
+          {[0, 1, 2].map((i) => (
+            <span
+              key={i}
+              className={`size-2.5 rounded-full ${i === dot ? "bg-primary" : "bg-primary/30"}`}
+            />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
