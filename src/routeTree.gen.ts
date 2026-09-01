@@ -10,33 +10,53 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BaiHocRouteImport } from './routes/bai-hoc'
+import { Route as TrangChuRouteImport } from './routes/trang-chu'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaiHocRoute = BaiHocRouteImport.update({
+  id: '/bai-hoc',
+  path: '/bai-hoc',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrangChuRoute = TrangChuRouteImport.update({
+  id: '/trang-chu',
+  path: '/trang-chu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/bai-hoc': typeof BaiHocRoute
+  '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/bai-hoc': typeof BaiHocRoute
+  '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/bai-hoc': typeof BaiHocRoute
+  '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/bai-hoc' | '/trang-chu'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/bai-hoc' | '/trang-chu'
+  id: '__root__' | '/' | '/bai-hoc' | '/trang-chu'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BaiHocRoute: typeof BaiHocRoute
+  TrangChuRoute: typeof TrangChuRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +68,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bai-hoc': {
+      id: '/bai-hoc'
+      path: '/bai-hoc'
+      fullPath: '/bai-hoc'
+      preLoaderRoute: typeof BaiHocRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/trang-chu': {
+      id: '/trang-chu'
+      path: '/trang-chu'
+      fullPath: '/trang-chu'
+      preLoaderRoute: typeof TrangChuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BaiHocRoute: BaiHocRoute,
+  TrangChuRoute: TrangChuRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
