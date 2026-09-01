@@ -19,10 +19,30 @@ export const Route = createFileRoute("/trang-chu")({
 });
 
 const tiles = [
-  { to: "/chat", label: "Chat AI", icon: MessageCircle, bg: "bg-accent", fg: "text-accent-foreground" },
-  { to: "/bai-hoc", label: "Bài học", icon: GraduationCap, bg: "bg-secondary", fg: "text-secondary-foreground" },
-  { to: "/kiem-tra", label: "Kiểm tra lừa đảo", icon: ShieldCheck, bg: "bg-secondary", fg: "text-secondary-foreground" },
-  { to: "/ket-noi", label: "Kết nối người thân", icon: UserPlus, bg: "bg-secondary", fg: "text-secondary-foreground" },
+  {
+    to: "/chat",
+    label: "Chat AI",
+    desc: "Hỏi trợ lý bất cứ điều gì đáng ngờ",
+    icon: MessageCircle,
+  },
+  {
+    to: "/bai-hoc",
+    label: "Bài học",
+    desc: "Bài ngắn 3-7 phút, chữ to dễ đọc",
+    icon: GraduationCap,
+  },
+  {
+    to: "/kiem-tra",
+    label: "Kiểm tra lừa đảo",
+    desc: "Dán tin nhắn để quét dấu hiệu lừa đảo",
+    icon: ShieldCheck,
+  },
+  {
+    to: "/ket-noi",
+    label: "Kết nối người thân",
+    desc: "Con cháu nhận cảnh báo giúp ông bà",
+    icon: UserPlus,
+  },
 ] as const;
 
 const activities = [
@@ -45,21 +65,21 @@ function Home() {
       </div>
 
       <div className="mt-6 grid grid-cols-2 gap-4">
-        {tiles.map(({ to, label, icon: Icon, bg, fg }) => (
+        {tiles.map(({ to, label, desc, icon: Icon }) => (
           <Link
             key={to}
             to={to}
-            className={`flex aspect-square flex-col justify-between rounded-3xl ${bg} ${fg} p-5 shadow-soft transition-transform active:scale-95`}
+            className="flex flex-col gap-3 rounded-3xl border border-border bg-card p-4 shadow-soft transition-transform active:scale-95"
           >
-            {to === "/kiem-tra" ? (
-              <img src={logo} alt="" width={768} height={768} loading="lazy" className="size-14" />
-            ) : (
-              <Icon className="size-14" strokeWidth={1.75} />
-            )}
-            <span className="text-xl font-bold leading-tight">{label}</span>
+            <span className="grid size-14 place-items-center rounded-2xl bg-secondary text-primary">
+              <Icon className="size-8" strokeWidth={1.75} />
+            </span>
+            <span className="text-xl font-bold leading-tight text-primary">{label}</span>
+            <span className="text-sm leading-snug text-muted-foreground">{desc}</span>
           </Link>
         ))}
       </div>
+
 
       <h2 className="mt-8 flex items-center gap-2 text-2xl font-bold text-primary">
         Hoạt động gần đây <span aria-hidden>▶</span>
