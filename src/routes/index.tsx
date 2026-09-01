@@ -1,6 +1,6 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import logo from "@/assets/zasa-logo.png";
+import logo from "@/assets/zasa-shield.png";
 
 export const Route = createFileRoute("/")({
   head: () => ({

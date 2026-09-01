@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { CheckCircle2, Lock, PlayCircle } from "lucide-react";
+import { useMemo, useState } from "react";
+import {
+  ChevronRight,
+  Clock,
+  Lock,
+  MessageSquareWarning,
+  Search,
+  ShieldAlert,
+  ShieldCheck,
+  Signal,
+  Users,
+  Wallet,
+} from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
 
@@ -10,63 +21,184 @@ export const Route = createFileRoute("/bai-hoc")({
       { title: "Bài học phòng chống lừa đảo — ZASA" },
       {
         name: "description",
-        content: "Các bài học ngắn, chữ to dễ đọc giúp người cao tuổi nhận biết chiêu trò lừa đảo.",
+        content:
+          "Chủ đề an toàn tài chính, nhận diện lừa đảo, dùng Zalo an toàn và giao dịch an toàn: bài học ngắn, chữ to dễ đọc cho người cao tuổi.",
       },
       { property: "og:title", content: "Bài học phòng chống lừa đảo — ZASA" },
-      { property: "og:description", content: "Học từng bước cách nhận biết và phòng tránh lừa đảo." },
+      { property: "og:description", content: "Chọn chủ đề và học từng bước cách phòng tránh lừa đảo." },
     ],
   }),
   component: Lessons,
 });
 
-const lessons = [
-  { title: "Nhận biết tin nhắn giả mạo ngân hàng", mins: 4, state: "done" },
-  { title: "Cuộc gọi giả danh công an, toà án", mins: 5, state: "done" },
-  { title: "Bẫy trúng thưởng và quà tặng miễn phí", mins: 3, state: "current" },
-  { title: "Không bao giờ chia sẻ mã OTP", mins: 4, state: "locked" },
-  { title: "Đầu tư lãi cao — dấu hiệu lừa đảo", mins: 6, state: "locked" },
+const topics = [
+  {
+    title: "An toàn tài chính",
+    desc: "Bảo vệ tiền và tài khoản của bạn",
+    icon: Wallet,
+    tint: "bg-secondary/60",
+  },
+  {
+    title: "Nhận diện lừa đảo",
+    desc: "Nhận biết tin nhắn, cuộc gọi và đường link giả mạo",
+    icon: ShieldAlert,
+    tint: "bg-success/10",
+  },
+  {
+    title: "Sử dụng Zalo an toàn",
+    desc: "Học cách dùng Zalo hiệu quả và an toàn",
+    icon: MessageSquareWarning,
+    tint: "bg-muted",
+  },
+  {
+    title: "Giao dịch an toàn",
+    desc: "Chuyển tiền, thanh toán an toàn trên mạng",
+    icon: Users,
+    tint: "bg-accent/25",
+  },
 ] as const;
 
+const lessons = [
+  {
+    title: "1. Nhận biết tin nhắn lừa đảo",
+    desc: "Học cách nhận biết các tin nhắn giả mạo từ ngân hàng, cơ quan, bạn bè…",
+    level: "Dễ",
+    mins: 5,
+    state: "open",
+    body: [
+      "Tin nhắn lừa đảo thường hối thúc bà làm ngay: “tài khoản bị khoá”, “cần xác minh trong 2 giờ”.",
+      "Số gửi lạ, đường link viết sai tên ngân hàng, sai chính tả tiếng Việt là dấu hiệu rõ nhất.",
+    ],
+  },
+  {
+    title: "2. Bảo mật tài khoản cá nhân",
+    desc: "Những cách đơn giản để bảo vệ tài khoản Zalo và thông tin cá nhân của bạn.",
+    level: "Dễ",
+    mins: 6,
+    state: "open",
+    body: [
+      "Đặt mật khẩu riêng cho Zalo, bật xác thực 2 lớp và không dùng chung mật khẩu với ngân hàng.",
+      "Không đăng nhập Zalo trên điện thoại của người lạ.",
+    ],
+  },
+  {
+    title: "3. Giao dịch tài chính an toàn",
+    desc: "Các nguyên tắc vàng khi chuyển tiền, thanh toán online.",
+    level: "Trung bình",
+    mins: 7,
+    state: "open",
+    body: [
+      "Luôn gọi điện xác nhận trực tiếp trước khi chuyển tiền, kể cả khi người nhắn xưng là con cháu.",
+      "Không chuyển “phí nhận thưởng”, “phí giải ngân” cho bất kỳ ai.",
+    ],
+  },
+  {
+    title: "5. Cuộc gọi giả danh công an, toà án",
+    desc: "Vì sao công an không bao giờ làm việc qua Zalo hay điện thoại.",
+    level: "Trung bình",
+    mins: 6,
+    state: "locked",
+    body: [],
+  },
+] as const;
+
+const inProgress = {
+  title: "4. Không chia sẻ thông tin cá nhân",
+  desc: "Vì sao không nên chia sẻ CCCD, mã OTP cho người khác?",
+  percent: 60,
+};
+
 function Lessons() {
-  const [open, setOpen] = useState<number | null>(2);
+  const [query, setQuery] = useState("");
+  const [open, setOpen] = useState<number | null>(0);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return lessons;
+    return lessons.filter(
+      (l) => l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q),
+    );
+  }, [query]);
 
   return (
-    <AppShell title="Bài học">
-      <div className="rounded-3xl bg-secondary p-5 shadow-soft">
-        <p className="text-lg font-semibold text-secondary-foreground">Tiến độ của bà</p>
-        <Progress value={40} className="mt-3 h-3" />
-        <p className="mt-2 text-sm text-secondary-foreground">Đã hoàn thành 2 / 5 bài học</p>
+    <AppShell title="Bài học" back="/trang-chu">
+      <label className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-soft">
+        <Search className="size-6 shrink-0 text-muted-foreground" aria-hidden />
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Tìm bài học..."
+          aria-label="Tìm bài học"
+          className="w-full bg-transparent text-lg outline-none placeholder:text-muted-foreground"
+        />
+      </label>
+
+      <h2 className="mt-6 text-2xl font-bold text-primary">Bạn muốn học về gì?</h2>
+      <p className="mt-1 text-base text-muted-foreground">
+        Chọn chủ đề để khám phá các bài học phù hợp với bạn.
+      </p>
+
+      <div className="mt-4 grid grid-cols-2 gap-4">
+        {topics.map(({ title, desc, icon: Icon, tint }) => (
+          <button
+            key={title}
+            type="button"
+            onClick={() => setQuery("")}
+            className={`flex flex-col gap-3 rounded-3xl ${tint} p-4 text-left shadow-soft transition-transform active:scale-95`}
+          >
+            <span className="grid size-12 place-items-center rounded-full bg-card text-primary">
+              <Icon className="size-7" strokeWidth={1.75} />
+            </span>
+            <span className="text-lg font-bold leading-tight text-primary">{title}</span>
+            <span className="text-sm leading-snug text-muted-foreground">{desc}</span>
+          </button>
+        ))}
       </div>
 
-      <ul className="mt-5 space-y-3">
-        {lessons.map((l, i) => (
+      <h2 className="mt-8 text-2xl font-bold text-primary">Bài học nổi bật</h2>
+      <ul className="mt-3 space-y-3">
+        {filtered.map((l, i) => (
           <li key={l.title} className="rounded-2xl border border-border bg-card shadow-soft">
             <button
               type="button"
-              onClick={() => setOpen(open === i ? null : i)}
               disabled={l.state === "locked"}
+              onClick={() => setOpen(open === i ? null : i)}
               className="flex w-full items-center gap-3 p-4 text-left disabled:opacity-60"
             >
-              {l.state === "done" ? (
-                <CheckCircle2 className="size-8 shrink-0 text-success" />
-              ) : l.state === "locked" ? (
-                <Lock className="size-8 shrink-0 text-muted-foreground" />
-              ) : (
-                <PlayCircle className="size-8 shrink-0 text-primary" />
-              )}
-              <span className="flex-1">
-                <span className="block text-lg font-bold text-primary">{l.title}</span>
-                <span className="text-sm text-muted-foreground">{l.mins} phút</span>
+              <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-secondary text-primary">
+                {l.state === "locked" ? (
+                  <Lock className="size-7" />
+                ) : (
+                  <ShieldCheck className="size-7" />
+                )}
               </span>
+              <span className="min-w-0 flex-1">
+                <span className="block text-lg font-bold leading-snug text-primary">{l.title}</span>
+                <span className="mt-0.5 block text-sm leading-snug text-muted-foreground">
+                  {l.desc}
+                </span>
+                <span className="mt-2 flex items-center gap-4 text-sm">
+                  <span
+                    className={`flex items-center gap-1 font-semibold ${
+                      l.level === "Dễ" ? "text-success" : "text-warning"
+                    }`}
+                  >
+                    <Signal className="size-4" aria-hidden /> {l.level}
+                  </span>
+                  <span className="flex items-center gap-1 text-muted-foreground">
+                    <Clock className="size-4" aria-hidden /> {l.mins} phút
+                  </span>
+                </span>
+              </span>
+              <ChevronRight className="size-6 shrink-0 text-muted-foreground" aria-hidden />
             </button>
             {open === i && l.state !== "locked" ? (
-              <div className="border-t border-border px-4 py-4 text-lg leading-relaxed text-foreground">
-                <p>
-                  Kẻ gian thường nhắn tin báo bà trúng thưởng lớn, rồi yêu cầu chuyển “phí nhận
-                  quà”. Hãy nhớ: không ai bắt bà trả tiền để nhận quà.
-                </p>
-                <p className="mt-3 font-semibold text-primary">3 việc cần làm:</p>
-                <ol className="mt-2 list-decimal space-y-1 pl-6">
+              <div className="space-y-3 border-t border-border px-4 py-4 text-lg leading-relaxed">
+                {l.body.map((p) => (
+                  <p key={p}>{p}</p>
+                ))}
+                <p className="font-semibold text-primary">3 việc cần làm:</p>
+                <ol className="list-decimal space-y-1 pl-6">
                   <li>Không bấm vào đường link lạ.</li>
                   <li>Không chuyển tiền, không đọc mã OTP.</li>
                   <li>Gọi cho con cháu hoặc hỏi trợ lý ZASA.</li>
@@ -75,7 +207,29 @@ function Lessons() {
             ) : null}
           </li>
         ))}
+        {filtered.length === 0 ? (
+          <li className="rounded-2xl border border-border bg-card p-4 text-lg text-muted-foreground">
+            Không tìm thấy bài học phù hợp.
+          </li>
+        ) : null}
       </ul>
+
+      <h2 className="mt-8 text-2xl font-bold text-primary">Bạn đang học dở</h2>
+      <div className="mt-3 flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft">
+        <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-secondary text-primary">
+          <ShieldAlert className="size-7" />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-lg font-bold leading-snug text-primary">{inProgress.title}</p>
+          <p className="text-sm leading-snug text-muted-foreground">{inProgress.desc}</p>
+          <div className="mt-2 flex items-center gap-3">
+            <Progress value={inProgress.percent} className="h-3 flex-1" />
+            <span className="shrink-0 text-sm font-semibold text-primary">
+              Đã học {inProgress.percent}%
+            </span>
+          </div>
+        </div>
+      </div>
     </AppShell>
   );
 }
