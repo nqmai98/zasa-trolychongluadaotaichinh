@@ -1,7 +1,7 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { MessageCircle, GraduationCap, ShieldCheck, UserPlus, UserCircle2 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import logo from "@/assets/zasa-logo.png";
+import logo from "@/assets/zasa-shield.png";
 
 export const Route = createFileRoute("/trang-chu")({
   head: () => ({
