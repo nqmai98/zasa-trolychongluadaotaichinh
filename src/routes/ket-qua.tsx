@@ -6,7 +6,7 @@ type Search = { text: string };
 
 export const Route = createFileRoute("/ket-qua")({
   validateSearch: (search: Record<string, unknown>): Search => ({
-    text: typeof search.text === "string" ? search.text : "",
+    text: typeof search["text"] === "string" ? (search["text"] as string) : "",
   }),
   head: () => ({
     meta: [
