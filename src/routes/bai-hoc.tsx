@@ -60,6 +60,7 @@ const topics = [
 
 const lessons = [
   {
+    id: "l1",
     title: "1. Nhận biết tin nhắn lừa đảo",
     desc: "Học cách nhận biết các tin nhắn giả mạo từ ngân hàng, cơ quan, bạn bè…",
     level: "Dễ",
@@ -71,6 +72,7 @@ const lessons = [
     ],
   },
   {
+    id: "l2",
     title: "2. Bảo mật tài khoản cá nhân",
     desc: "Những cách đơn giản để bảo vệ tài khoản Zalo và thông tin cá nhân của bạn.",
     level: "Dễ",
@@ -82,6 +84,7 @@ const lessons = [
     ],
   },
   {
+    id: "l3",
     title: "3. Giao dịch tài chính an toàn",
     desc: "Các nguyên tắc vàng khi chuyển tiền, thanh toán online.",
     level: "Trung bình",
@@ -93,6 +96,7 @@ const lessons = [
     ],
   },
   {
+    id: "l5",
     title: "5. Cuộc gọi giả danh công an, toà án",
     desc: "Vì sao công an không bao giờ làm việc qua Zalo hay điện thoại.",
     level: "Trung bình",
@@ -101,6 +105,7 @@ const lessons = [
     body: [],
   },
 ] as const;
+
 
 const inProgress = {
   title: "4. Không chia sẻ thông tin cá nhân",
