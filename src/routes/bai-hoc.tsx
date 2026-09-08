@@ -119,6 +119,7 @@ const inProgress = {
 function Lessons() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<number | null>(0);
+  const { points } = usePoints();
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -130,7 +131,12 @@ function Lessons() {
 
   return (
     <AppShell title="Bài học" back="/trang-chu">
+      <p className="mb-3 rounded-2xl bg-secondary/60 px-4 py-3 text-lg font-semibold text-primary">
+        Điểm tích lũy của bạn: {points} điểm — trả lời đúng mỗi câu hỏi được +10 điểm, trả lời sai
+        không bị trừ.
+      </p>
       <label className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-soft">
+
         <Search className="size-6 shrink-0 text-muted-foreground" aria-hidden />
         <input
           value={query}
