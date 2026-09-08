@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
+import { LessonQuiz } from "@/components/LessonQuiz";
+import { quizzes } from "@/lib/lesson-quizzes";
+import { usePoints } from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/bai-hoc")({
   head: () => ({
@@ -208,7 +211,9 @@ function Lessons() {
                   <li>Không chuyển tiền, không đọc mã OTP.</li>
                   <li>Gọi cho con cháu hoặc hỏi trợ lý ZASA.</li>
                 </ol>
+                {quizzes[l.id] ? <LessonQuiz lessonId={l.id} questions={quizzes[l.id]!} /> : null}
               </div>
+
             ) : null}
           </li>
         ))}
