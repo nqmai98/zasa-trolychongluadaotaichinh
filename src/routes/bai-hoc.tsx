@@ -14,6 +14,9 @@ import {
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
 import { Progress } from "@/components/ui/progress";
+import { LessonQuiz } from "@/components/LessonQuiz";
+import { quizzes } from "@/lib/lesson-quizzes";
+import { usePoints } from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/bai-hoc")({
   head: () => ({
@@ -60,6 +63,7 @@ const topics = [
 
 const lessons = [
   {
+    id: "l1",
     title: "1. Nhận biết tin nhắn lừa đảo",
     desc: "Học cách nhận biết các tin nhắn giả mạo từ ngân hàng, cơ quan, bạn bè…",
     level: "Dễ",
@@ -71,6 +75,7 @@ const lessons = [
     ],
   },
   {
+    id: "l2",
     title: "2. Bảo mật tài khoản cá nhân",
     desc: "Những cách đơn giản để bảo vệ tài khoản Zalo và thông tin cá nhân của bạn.",
     level: "Dễ",
@@ -82,6 +87,7 @@ const lessons = [
     ],
   },
   {
+    id: "l3",
     title: "3. Giao dịch tài chính an toàn",
     desc: "Các nguyên tắc vàng khi chuyển tiền, thanh toán online.",
     level: "Trung bình",
@@ -93,6 +99,7 @@ const lessons = [
     ],
   },
   {
+    id: "l5",
     title: "5. Cuộc gọi giả danh công an, toà án",
     desc: "Vì sao công an không bao giờ làm việc qua Zalo hay điện thoại.",
     level: "Trung bình",
@@ -101,6 +108,7 @@ const lessons = [
     body: [],
   },
 ] as const;
+
 
 const inProgress = {
   title: "4. Không chia sẻ thông tin cá nhân",
@@ -111,6 +119,7 @@ const inProgress = {
 function Lessons() {
   const [query, setQuery] = useState("");
   const [open, setOpen] = useState<number | null>(0);
+  const { points } = usePoints();
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -122,7 +131,12 @@ function Lessons() {
 
   return (
     <AppShell title="Bài học" back="/trang-chu">
+      <p className="mb-3 rounded-2xl bg-secondary/60 px-4 py-3 text-lg font-semibold text-primary">
+        Điểm tích lũy của bạn: {points} điểm — trả lời đúng mỗi câu hỏi được +10 điểm, trả lời sai
+        không bị trừ.
+      </p>
       <label className="flex items-center gap-3 rounded-2xl border border-border bg-card px-4 py-3 shadow-soft">
+
         <Search className="size-6 shrink-0 text-muted-foreground" aria-hidden />
         <input
           value={query}
@@ -203,7 +217,9 @@ function Lessons() {
                   <li>Không chuyển tiền, không đọc mã OTP.</li>
                   <li>Gọi cho con cháu hoặc hỏi trợ lý ZASA.</li>
                 </ol>
+                {quizzes[l.id] ? <LessonQuiz lessonId={l.id} questions={quizzes[l.id]!} /> : null}
               </div>
+
             ) : null}
           </li>
         ))}
