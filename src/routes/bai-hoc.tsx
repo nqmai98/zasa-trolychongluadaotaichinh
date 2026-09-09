@@ -39,24 +39,28 @@ const topics = [
     title: "An toàn tài chính",
     desc: "Bảo vệ tiền và tài khoản của bạn",
     icon: Wallet,
+    tag: "tai-chinh",
     tint: "bg-secondary/60",
   },
   {
     title: "Nhận diện lừa đảo",
     desc: "Nhận biết tin nhắn, cuộc gọi và đường link giả mạo",
     icon: ShieldAlert,
+    tag: "nhan-dien",
     tint: "bg-success/10",
   },
   {
     title: "Sử dụng Zalo an toàn",
     desc: "Học cách dùng Zalo hiệu quả và an toàn",
     icon: MessageSquareWarning,
+    tag: "zalo",
     tint: "bg-muted",
   },
   {
     title: "Giao dịch an toàn",
     desc: "Chuyển tiền, thanh toán an toàn trên mạng",
     icon: Users,
+    tag: "giao-dich",
     tint: "bg-accent/25",
   },
 ] as const;
@@ -64,6 +68,7 @@ const topics = [
 const lessons = [
   {
     id: "l1",
+    tag: "nhan-dien",
     title: "1. Nhận biết tin nhắn lừa đảo",
     desc: "Học cách nhận biết các tin nhắn giả mạo từ ngân hàng, cơ quan, bạn bè…",
     level: "Dễ",
@@ -76,6 +81,7 @@ const lessons = [
   },
   {
     id: "l2",
+    tag: "zalo",
     title: "2. Bảo mật tài khoản cá nhân",
     desc: "Những cách đơn giản để bảo vệ tài khoản Zalo và thông tin cá nhân của bạn.",
     level: "Dễ",
@@ -88,6 +94,7 @@ const lessons = [
   },
   {
     id: "l3",
+    tag: "giao-dich",
     title: "3. Giao dịch tài chính an toàn",
     desc: "Các nguyên tắc vàng khi chuyển tiền, thanh toán online.",
     level: "Trung bình",
@@ -100,6 +107,7 @@ const lessons = [
   },
   {
     id: "l5",
+    tag: "nhan-dien",
     title: "5. Cuộc gọi giả danh công an, toà án",
     desc: "Vì sao công an không bao giờ làm việc qua Zalo hay điện thoại.",
     level: "Trung bình",
@@ -118,16 +126,18 @@ const inProgress = {
 
 function Lessons() {
   const [query, setQuery] = useState("");
+  const [topic, setTopic] = useState<string | null>(null);
   const [open, setOpen] = useState<number | null>(0);
   const { points } = usePoints();
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
-    if (!q) return lessons;
-    return lessons.filter(
-      (l) => l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q),
-    );
-  }, [query]);
+    return lessons.filter((l) => {
+      const matchTopic = !topic || l.tag === topic;
+      const matchText = !q || l.title.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q);
+      return matchTopic && matchText;
+    });
+  }, [query, topic]);
 
   return (
     <AppShell title="Bài học" back="/trang-chu">
@@ -153,12 +163,19 @@ function Lessons() {
       </p>
 
       <div className="mt-4 grid grid-cols-2 gap-4">
-        {topics.map(({ title, desc, icon: Icon, tint }) => (
+        {topics.map(({ title, desc, icon: Icon, tint, tag }) => (
           <button
             key={title}
             type="button"
-            onClick={() => setQuery("")}
-            className={`flex flex-col gap-3 rounded-3xl ${tint} p-4 text-left shadow-soft transition-transform active:scale-95`}
+            aria-pressed={topic === tag}
+            onClick={() => {
+              setQuery("");
+              setOpen(null);
+              setTopic(topic === tag ? null : tag);
+            }}
+            className={`flex flex-col gap-3 rounded-3xl ${tint} p-4 text-left shadow-soft transition-transform active:scale-95 ${
+              topic === tag ? "ring-2 ring-primary" : ""
+            }`}
           >
             <span className="grid size-12 place-items-center rounded-full bg-card text-primary">
               <Icon className="size-7" strokeWidth={1.75} />
@@ -169,7 +186,20 @@ function Lessons() {
         ))}
       </div>
 
-      <h2 className="mt-8 text-2xl font-bold text-primary">Bài học nổi bật</h2>
+      <div className="mt-8 flex items-center justify-between gap-3">
+        <h2 className="text-2xl font-bold text-primary">
+          {topic ? topics.find((t) => t.tag === topic)?.title : "Bài học nổi bật"}
+        </h2>
+        {topic ? (
+          <button
+            type="button"
+            onClick={() => setTopic(null)}
+            className="rounded-full border border-border bg-card px-4 py-2 text-sm font-semibold text-primary"
+          >
+            Xem tất cả
+          </button>
+        ) : null}
+      </div>
       <ul className="mt-3 space-y-3">
         {filtered.map((l, i) => (
           <li key={l.title} className="rounded-2xl border border-border bg-card shadow-soft">
@@ -217,7 +247,9 @@ function Lessons() {
                   <li>Không chuyển tiền, không đọc mã OTP.</li>
                   <li>Gọi cho con cháu hoặc hỏi trợ lý ZASA.</li>
                 </ol>
-                {quizzes[l.id] ? <LessonQuiz lessonId={l.id} questions={quizzes[l.id]!} /> : null}
+                {quizzes[l.id] ? (
+                  <LessonQuiz lessonId={l.id} lessonTitle={l.title} questions={quizzes[l.id]!} />
+                ) : null}
               </div>
 
             ) : null}
@@ -225,7 +257,7 @@ function Lessons() {
         ))}
         {filtered.length === 0 ? (
           <li className="rounded-2xl border border-border bg-card p-4 text-lg text-muted-foreground">
-            Không tìm thấy bài học phù hợp.
+            Chưa có bài học nào trong chủ đề này. Bà bấm “Xem tất cả” để xem các bài khác nhé.
           </li>
         ) : null}
       </ul>
