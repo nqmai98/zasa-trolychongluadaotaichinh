@@ -1,12 +1,15 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle, CheckCircle2, PhoneCall, ShieldAlert } from "lucide-react";
+import { useEffect, useRef } from "react";
+import { AlertTriangle, CheckCircle2, ImageIcon, PhoneCall, ShieldAlert } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { useActivities, useAddress } from "@/lib/zasa-store";
 
-type Search = { text: string };
+type Search = { text: string; img: number };
 
 export const Route = createFileRoute("/ket-qua")({
   validateSearch: (search: Record<string, unknown>): Search => ({
     text: typeof search["text"] === "string" ? (search["text"] as string) : "",
+    img: Number(search["img"]) === 1 ? 1 : 0,
   }),
   head: () => ({
     meta: [
@@ -31,9 +34,29 @@ const dangerWords = [
 ];
 
 function Result() {
-  const { text } = Route.useSearch();
+  const { text, img } = Route.useSearch();
+  const { log } = useActivities();
+  const { you, You } = useAddress();
+  const logged = useRef(false);
+
   const flags = dangerWords.filter((d) => d.w.test(text)).map((d) => d.why);
-  const level = flags.length >= 2 ? "danger" : flags.length === 1 ? "warn" : "safe";
+  if (img === 1 && !text.trim()) flags.push("Ảnh tin nhắn chưa rõ nội dung — cần đọc kỹ trước khi làm theo");
+  const level: "danger" | "warn" | "safe" =
+    flags.length >= 2 ? "danger" : flags.length === 1 ? "warn" : "safe";
+
+  useEffect(() => {
+    if (logged.current) return;
+    logged.current = true;
+    log({
+      kind: "scan",
+      risk: level,
+      title: "Đã kiểm tra tin nhắn",
+      desc:
+        (level === "danger" ? "RỦI RO CAO: " : level === "warn" ? "Cần cảnh giác: " : "An toàn: ") +
+        (text.trim() ? text.trim().slice(0, 90) : "ảnh chụp tin nhắn"),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const meta = {
     danger: {
@@ -68,6 +91,12 @@ function Result() {
         </div>
       ) : null}
 
+      {img === 1 ? (
+        <p className="mt-3 flex items-center gap-2 rounded-2xl border border-border bg-card p-4 text-base text-muted-foreground">
+          <ImageIcon className="size-5 shrink-0 text-primary" /> {You} đã gửi kèm ảnh chụp tin nhắn.
+        </p>
+      ) : null}
+
       <h2 className="mt-6 text-xl font-bold text-primary">Vì sao ZASA kết luận như vậy?</h2>
       <ul className="mt-2 space-y-2">
         {(flags.length ? flags : ["Không phát hiện dấu hiệu lừa đảo phổ biến nào."]).map((f) => (
@@ -80,11 +109,13 @@ function Result() {
         ))}
       </ul>
 
-      <h2 className="mt-6 text-xl font-bold text-primary">Bà nên làm gì tiếp theo?</h2>
+      <h2 className="mt-6 text-xl font-bold text-primary">
+        {You} nên làm gì tiếp theo?
+      </h2>
       <ol className="mt-2 list-decimal space-y-2 pl-6 text-lg leading-relaxed text-foreground">
         <li>Không bấm vào đường link và không chuyển tiền.</li>
         <li>Không đọc mã OTP cho bất kỳ ai.</li>
-        <li>Báo cho người thân đã kết nối trong ứng dụng.</li>
+        <li>Báo cho người thân đã kết nối trong ứng dụng — con cháu của {you} đã nhận được cảnh báo này.</li>
       </ol>
 
       <div className="mt-6 space-y-3">

@@ -1,8 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { Check, Copy, PhoneCall, UserPlus, X } from "lucide-react";
+import { Check, Copy, PhoneCall, Trash2, UserPlus, X } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
+import { useActivities, useRelatives, useAddress } from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/ket-noi")({
   head: () => ({
@@ -19,15 +20,10 @@ export const Route = createFileRoute("/ket-noi")({
   component: Connect,
 });
 
-type Relative = { name: string; rel: string; phone: string };
-
-const initialRelatives: Relative[] = [
-  { name: "Cháu Minh", rel: "Cháu trai", phone: "0901 234 567" },
-  { name: "Chị Lan", rel: "Con gái", phone: "0912 888 456" },
-];
-
 function Connect() {
-  const [relatives, setRelatives] = useState<Relative[]>(initialRelatives);
+  const { relatives, add, remove } = useRelatives();
+  const { log } = useActivities();
+  const { you } = useAddress();
   const [adding, setAdding] = useState(false);
   const [name, setName] = useState("");
   const [rel, setRel] = useState("");
@@ -41,19 +37,21 @@ function Connect() {
       toast.success("Đã sao chép mã ZS-4821");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("Không sao chép được, bà ghi tay mã ZS-4821 nhé");
+      toast.error(`Không sao chép được, ${you} ghi tay mã ZS-4821 nhé`);
     }
   };
 
   const addRelative = () => {
     if (!name.trim() || !phone.trim()) {
-      toast.error("Bà nhập họ tên và số điện thoại nhé");
+      toast.error(`${you === "ông" ? "Ông" : "Bà"} nhập họ tên và số điện thoại nhé`);
       return;
     }
-    setRelatives((prev) => [
-      ...prev,
-      { name: name.trim(), rel: rel.trim() || "Người thân", phone: phone.trim() },
-    ]);
+    add({ name: name.trim(), rel: rel.trim() || "Người thân", phone: phone.trim() });
+    log({
+      kind: "connect",
+      title: "Đã kết nối với người thân",
+      desc: `${name.trim()} · ${phone.trim()}`,
+    });
     setName("");
     setRel("");
     setPhone("");
@@ -61,11 +59,17 @@ function Connect() {
     toast.success(`Đã thêm ${name.trim()} vào danh sách`);
   };
 
+  const removeRelative = (id: string, who: string) => {
+    remove(id);
+    log({ kind: "connect", title: "Đã xóa kết nối người thân", desc: who });
+    toast.success(`Đã xóa ${who} khỏi danh sách`);
+  };
+
   return (
     <AppShell title="Kết nối người thân" back="/trang-chu">
       <div className="space-y-4">
         <div className="rounded-3xl bg-secondary p-6 text-center shadow-soft">
-          <p className="text-lg text-secondary-foreground">Mã kết nối của bà</p>
+          <p className="text-lg text-secondary-foreground">Mã kết nối của {you}</p>
           <p className="mt-2 text-4xl font-extrabold tracking-[0.2em] text-primary">ZS-4821</p>
           <button
             type="button"
@@ -78,34 +82,49 @@ function Connect() {
         </div>
 
         <p className="text-lg leading-relaxed text-foreground">
-          Bà đọc mã này cho con cháu để họ nhận cảnh báo khi bà gặp tin nhắn đáng ngờ.
+          {you === "ông" ? "Ông" : "Bà"} đọc mã này cho con cháu để họ nhận cảnh báo khi{" "}
+          {you} gặp tin nhắn đáng ngờ.
         </p>
 
         <h2 className="text-xl font-bold text-primary">Người thân đã kết nối</h2>
         <ul className="space-y-3">
-          {relatives.map((p) => (
-            <li
-              key={p.name + p.phone}
-              className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft"
-            >
-              <div className="grid size-12 shrink-0 place-items-center rounded-full bg-secondary text-lg font-bold text-primary">
-                {p.name.charAt(0)}
-              </div>
-              <div className="flex-1">
-                <p className="text-lg font-bold text-primary">{p.name}</p>
-                <p className="text-sm text-muted-foreground">
-                  {p.rel} · {p.phone}
-                </p>
-              </div>
-              <a
-                href={`tel:${p.phone.replace(/\s/g, "")}`}
-                aria-label={`Gọi ${p.name}`}
-                className="grid size-12 place-items-center rounded-full bg-primary text-primary-foreground"
-              >
-                <PhoneCall className="size-6" />
-              </a>
+          {relatives.length === 0 ? (
+            <li className="rounded-2xl border border-border bg-card p-4 text-lg text-muted-foreground shadow-soft">
+              Chưa có người thân nào được kết nối.
             </li>
-          ))}
+          ) : (
+            relatives.map((p) => (
+              <li
+                key={p.id}
+                className="flex items-center gap-3 rounded-2xl border border-border bg-card p-4 shadow-soft"
+              >
+                <div className="grid size-12 shrink-0 place-items-center rounded-full bg-secondary text-lg font-bold text-primary">
+                  {p.name.charAt(0)}
+                </div>
+                <div className="min-w-0 flex-1">
+                  <p className="text-lg font-bold text-primary">{p.name}</p>
+                  <p className="truncate text-sm text-muted-foreground">
+                    {p.rel} · {p.phone}
+                  </p>
+                </div>
+                <a
+                  href={`tel:${p.phone.replace(/\s/g, "")}`}
+                  aria-label={`Gọi ${p.name}`}
+                  className="grid size-12 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"
+                >
+                  <PhoneCall className="size-6" />
+                </a>
+                <button
+                  type="button"
+                  onClick={() => removeRelative(p.id, p.name)}
+                  aria-label={`Xóa kết nối ${p.name}`}
+                  className="grid size-12 shrink-0 place-items-center rounded-full bg-destructive/10 text-destructive"
+                >
+                  <Trash2 className="size-6" />
+                </button>
+              </li>
+            ))
+          )}
         </ul>
 
         {adding ? (

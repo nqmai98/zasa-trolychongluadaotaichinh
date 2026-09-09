@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logo from "@/assets/zasa-shield.png";
+import { useRole } from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/")({
 
 function Splash() {
   const navigate = useNavigate();
+  const { role, ready } = useRole();
   const [dot, setDot] = useState(0);
 
   useEffect(() => {
@@ -31,11 +33,18 @@ function Splash() {
   }, []);
 
   useEffect(() => {
-    const go = setTimeout(() => navigate({ to: "/trang-chu", replace: true }), 2600);
+    if (!ready) return;
+    const go = setTimeout(
+      () =>
+        navigate({
+          to: role === "elder" ? "/trang-chu" : role === "family" ? "/nguoi-than" : "/chon-vai-tro",
+          replace: true,
+        }),
+      2200,
+    );
     return () => clearTimeout(go);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  }, [ready, role]);
 
   return (
     <div

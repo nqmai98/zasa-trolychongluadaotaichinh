@@ -1,6 +1,38 @@
 import type { Question } from "@/components/LessonQuiz";
 
 export const quizzes: Record<string, Question[]> = {
+  l4: [
+    {
+      q: "Ai được phép biết mã OTP của bạn?",
+      options: ["Nhân viên ngân hàng", "Con cháu trong nhà", "Không ai cả"],
+      answer: 2,
+      hint: "OTP chỉ dành riêng cho bạn, không đọc cho bất kỳ ai.",
+    },
+    {
+      q: "Người lạ xin ảnh chụp CCCD để “làm hồ sơ nhận quà”, bạn nên làm gì?",
+      options: ["Gửi ngay cho nhanh", "Từ chối và chặn liên hệ", "Gửi nhưng che ngày sinh"],
+      answer: 1,
+      hint: "Ảnh CCCD có thể bị dùng để vay tiền, mở tài khoản giả mạo.",
+    },
+    {
+      q: "Đăng số điện thoại và ngày sinh công khai trên mạng xã hội có rủi ro gì?",
+      options: ["Không sao cả", "Kẻ gian dễ giả mạo, dò mật khẩu", "Giúp bạn bè tìm mình"],
+      answer: 1,
+      hint: "Thông tin cá nhân càng ít lộ, kẻ gian càng khó lừa.",
+    },
+    {
+      q: "Một người tự xưng công an gọi hỏi số tài khoản ngân hàng, bạn nên?",
+      options: ["Đọc số tài khoản", "Tắt máy và gọi cho con cháu", "Nhắn qua Zalo cho họ"],
+      answer: 1,
+      hint: "Cơ quan chức năng không làm việc qua điện thoại như vậy.",
+    },
+    {
+      q: "Mật khẩu nào an toàn hơn?",
+      options: ["123456", "Ngày sinh của mình", "Chuỗi chữ và số riêng, khó đoán"],
+      answer: 2,
+      hint: "Không dùng ngày sinh hay dãy số dễ đoán làm mật khẩu.",
+    },
+  ],
   l1: [
     {
       q: "Tin nhắn báo “tài khoản sẽ bị khoá trong 2 giờ” là dấu hiệu gì?",

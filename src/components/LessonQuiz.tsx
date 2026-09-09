@@ -1,21 +1,48 @@
-import { useState } from "react";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CheckCircle2, PartyPopper, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { usePoints } from "@/lib/zasa-store";
+import { useActivities, useLessonResults, usePoints } from "@/lib/zasa-store";
 
 export type Question = { q: string; options: string[]; answer: number; hint: string };
 
 const POINTS_PER_QUESTION = 10;
 
-export function LessonQuiz({ lessonId, questions }: { lessonId: string; questions: Question[] }) {
+export function LessonQuiz({
+  lessonId,
+  lessonTitle,
+  questions,
+}: {
+  lessonId: string;
+  lessonTitle: string;
+  questions: Question[];
+}) {
   const { answered, award } = usePoints();
+  const { record } = useLessonResults();
+  const { log } = useActivities();
   const [picked, setPicked] = useState<Record<number, number>>({});
+  const [attempts, setAttempts] = useState<Record<number, number>>({});
+  const recorded = useRef(false);
 
   const correctCount = questions.filter((q, i) => picked[i] === q.answer).length;
+  const firstTryCorrect = questions.filter((q, i) => picked[i] === q.answer && attempts[i] === 1).length;
+  const finished = correctCount === questions.length;
+
+  useEffect(() => {
+    if (!finished || recorded.current) return;
+    recorded.current = true;
+    record({ lessonId, title: lessonTitle, correct: firstTryCorrect, total: questions.length });
+    log({
+      kind: "lesson",
+      title: "Đã hoàn thành bài học",
+      desc: `${lessonTitle} — đúng ${firstTryCorrect}/${questions.length} câu ngay lần đầu`,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [finished]);
 
   const choose = (qi: number, oi: number) => {
     if (picked[qi] === questions[qi]!.answer) return;
     setPicked((p) => ({ ...p, [qi]: oi }));
+    setAttempts((a) => ({ ...a, [qi]: (a[qi] ?? 0) + 1 }));
     if (oi === questions[qi]!.answer) {
       const gained = award(`${lessonId}-${qi}`, POINTS_PER_QUESTION);
       toast.success(
@@ -81,6 +108,23 @@ export function LessonQuiz({ lessonId, questions }: { lessonId: string; question
           </div>
         );
       })}
+
+      {finished ? (
+        <div className="rounded-3xl border border-success/40 bg-success/10 p-5 text-center">
+          <PartyPopper className="mx-auto size-10 text-success" />
+          <p className="mt-2 text-2xl font-extrabold text-primary">Hoàn thành bài học!</p>
+          <p className="mt-1 text-lg text-foreground">
+            Bạn trả lời đúng ngay lần đầu{" "}
+            <strong className="text-success">
+              {firstTryCorrect}/{questions.length}
+            </strong>{" "}
+            câu.
+          </p>
+          <p className="mt-1 text-base text-muted-foreground">
+            Điểm đã được cộng và con cháu của bạn cũng thấy kết quả này.
+          </p>
+        </div>
+      ) : null}
     </div>
   );
 }

@@ -12,10 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BaiHocRouteImport } from './routes/bai-hoc'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as ChonVaiTroRouteImport } from './routes/chon-vai-tro'
 import { Route as HoSoRouteImport } from './routes/ho-so'
 import { Route as KetNoiRouteImport } from './routes/ket-noi'
 import { Route as KetQuaRouteImport } from './routes/ket-qua'
 import { Route as KiemTraRouteImport } from './routes/kiem-tra'
+import { Route as NguoiThanRouteImport } from './routes/nguoi-than'
 import { Route as TrangChuRouteImport } from './routes/trang-chu'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,6 +33,11 @@ const BaiHocRoute = BaiHocRouteImport.update({
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChonVaiTroRoute = ChonVaiTroRouteImport.update({
+  id: '/chon-vai-tro',
+  path: '/chon-vai-tro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HoSoRoute = HoSoRouteImport.update({
@@ -53,6 +60,11 @@ const KiemTraRoute = KiemTraRouteImport.update({
   path: '/kiem-tra',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NguoiThanRoute = NguoiThanRouteImport.update({
+  id: '/nguoi-than',
+  path: '/nguoi-than',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrangChuRoute = TrangChuRouteImport.update({
   id: '/trang-chu',
   path: '/trang-chu',
@@ -63,20 +75,24 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
+  '/chon-vai-tro': typeof ChonVaiTroRoute
   '/ho-so': typeof HoSoRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
+  '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
+  '/chon-vai-tro': typeof ChonVaiTroRoute
   '/ho-so': typeof HoSoRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
+  '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesById {
@@ -84,10 +100,12 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
+  '/chon-vai-tro': typeof ChonVaiTroRoute
   '/ho-so': typeof HoSoRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
+  '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRouteTypes {
@@ -96,30 +114,36 @@ export interface FileRouteTypes {
     | '/'
     | '/bai-hoc'
     | '/chat'
+    | '/chon-vai-tro'
     | '/ho-so'
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
+    | '/nguoi-than'
     | '/trang-chu'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/bai-hoc'
     | '/chat'
+    | '/chon-vai-tro'
     | '/ho-so'
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
+    | '/nguoi-than'
     | '/trang-chu'
   id:
     | '__root__'
     | '/'
     | '/bai-hoc'
     | '/chat'
+    | '/chon-vai-tro'
     | '/ho-so'
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
+    | '/nguoi-than'
     | '/trang-chu'
   fileRoutesById: FileRoutesById
 }
@@ -127,10 +151,12 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BaiHocRoute: typeof BaiHocRoute
   ChatRoute: typeof ChatRoute
+  ChonVaiTroRoute: typeof ChonVaiTroRoute
   HoSoRoute: typeof HoSoRoute
   KetNoiRoute: typeof KetNoiRoute
   KetQuaRoute: typeof KetQuaRoute
   KiemTraRoute: typeof KiemTraRoute
+  NguoiThanRoute: typeof NguoiThanRoute
   TrangChuRoute: typeof TrangChuRoute
 }
 
@@ -155,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chon-vai-tro': {
+      id: '/chon-vai-tro'
+      path: '/chon-vai-tro'
+      fullPath: '/chon-vai-tro'
+      preLoaderRoute: typeof ChonVaiTroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ho-so': {
@@ -185,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KiemTraRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nguoi-than': {
+      id: '/nguoi-than'
+      path: '/nguoi-than'
+      fullPath: '/nguoi-than'
+      preLoaderRoute: typeof NguoiThanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trang-chu': {
       id: '/trang-chu'
       path: '/trang-chu'
@@ -199,10 +239,12 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BaiHocRoute: BaiHocRoute,
   ChatRoute: ChatRoute,
+  ChonVaiTroRoute: ChonVaiTroRoute,
   HoSoRoute: HoSoRoute,
   KetNoiRoute: KetNoiRoute,
   KetQuaRoute: KetQuaRoute,
   KiemTraRoute: KiemTraRoute,
+  NguoiThanRoute: NguoiThanRoute,
   TrangChuRoute: TrangChuRoute,
 }
 export const routeTree = rootRouteImport
