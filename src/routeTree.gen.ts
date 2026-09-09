@@ -17,6 +17,7 @@ import { Route as HoSoRouteImport } from './routes/ho-so'
 import { Route as KetNoiRouteImport } from './routes/ket-noi'
 import { Route as KetQuaRouteImport } from './routes/ket-qua'
 import { Route as KiemTraRouteImport } from './routes/kiem-tra'
+import { Route as NguoiThanRouteImport } from './routes/nguoi-than'
 import { Route as TrangChuRouteImport } from './routes/trang-chu'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +60,11 @@ const KiemTraRoute = KiemTraRouteImport.update({
   path: '/kiem-tra',
   getParentRoute: () => rootRouteImport,
 } as any)
+const NguoiThanRoute = NguoiThanRouteImport.update({
+  id: '/nguoi-than',
+  path: '/nguoi-than',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const TrangChuRoute = TrangChuRouteImport.update({
   id: '/trang-chu',
   path: '/trang-chu',
@@ -74,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
+  '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesByTo {
@@ -85,6 +92,7 @@ export interface FileRoutesByTo {
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
+  '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRoutesById {
@@ -97,6 +105,7 @@ export interface FileRoutesById {
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
+  '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
 }
 export interface FileRouteTypes {
@@ -110,6 +119,7 @@ export interface FileRouteTypes {
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
+    | '/nguoi-than'
     | '/trang-chu'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -121,6 +131,7 @@ export interface FileRouteTypes {
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
+    | '/nguoi-than'
     | '/trang-chu'
   id:
     | '__root__'
@@ -132,6 +143,7 @@ export interface FileRouteTypes {
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
+    | '/nguoi-than'
     | '/trang-chu'
   fileRoutesById: FileRoutesById
 }
@@ -144,6 +156,7 @@ export interface RootRouteChildren {
   KetNoiRoute: typeof KetNoiRoute
   KetQuaRoute: typeof KetQuaRoute
   KiemTraRoute: typeof KiemTraRoute
+  NguoiThanRoute: typeof NguoiThanRoute
   TrangChuRoute: typeof TrangChuRoute
 }
 
@@ -205,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof KiemTraRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/nguoi-than': {
+      id: '/nguoi-than'
+      path: '/nguoi-than'
+      fullPath: '/nguoi-than'
+      preLoaderRoute: typeof NguoiThanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/trang-chu': {
       id: '/trang-chu'
       path: '/trang-chu'
@@ -224,6 +244,7 @@ const rootRouteChildren: RootRouteChildren = {
   KetNoiRoute: KetNoiRoute,
   KetQuaRoute: KetQuaRoute,
   KiemTraRoute: KiemTraRoute,
+  NguoiThanRoute: NguoiThanRoute,
   TrangChuRoute: TrangChuRoute,
 }
 export const routeTree = rootRouteImport
