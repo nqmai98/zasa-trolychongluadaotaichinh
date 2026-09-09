@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { Award, Camera, Save, UserCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
-import { PROVINCES, useProfile, usePoints, type Profile } from "@/lib/zasa-store";
+import { PROVINCES, useProfile, usePoints, useActivities, type Profile } from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/ho-so")({
   head: () => ({
@@ -24,6 +24,7 @@ export const Route = createFileRoute("/ho-so")({
 function ProfilePage() {
   const { profile, setProfile, ready } = useProfile();
   const { points } = usePoints();
+  const { log } = useActivities();
   const [form, setForm] = useState<Profile>(profile);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -55,6 +56,7 @@ function ProfilePage() {
       return;
     }
     setProfile({ ...form, name: form.name.trim(), phone: form.phone.trim() });
+    log({ kind: "profile", title: "Đã cập nhật hồ sơ", desc: `${form.name.trim()} · ${form.province}` });
     toast.success("Đã lưu thông tin cá nhân");
   };
 
@@ -108,6 +110,30 @@ function ProfilePage() {
             className="input-zasa"
             maxLength={80}
           />
+        </Field>
+        <Field label="Giới tính (trợ lý sẽ xưng hô theo lựa chọn này)">
+          <div className="flex gap-3">
+            {([
+              { v: "ba", label: "Bà" },
+              { v: "ong", label: "Ông" },
+            ] as const).map((o) => (
+              <button
+                key={o.v}
+                type="button"
+                onClick={() => set("gender", o.v)}
+                className={`h-14 flex-1 rounded-2xl border text-lg font-bold ${
+                  form.gender === o.v
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-card text-primary"
+                }`}
+              >
+                {o.label}
+              </button>
+            ))}
+          </div>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Trợ lý ZASA sẽ gọi bạn là “{form.gender === "ong" ? "ông" : "bà"}”.
+          </p>
         </Field>
         <Field label="Ngày tháng năm sinh">
           <input
