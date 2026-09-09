@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as BaiHocRouteImport } from './routes/bai-hoc'
 import { Route as ChatRouteImport } from './routes/chat'
+import { Route as ChonVaiTroRouteImport } from './routes/chon-vai-tro'
 import { Route as HoSoRouteImport } from './routes/ho-so'
 import { Route as KetNoiRouteImport } from './routes/ket-noi'
 import { Route as KetQuaRouteImport } from './routes/ket-qua'
@@ -31,6 +32,11 @@ const BaiHocRoute = BaiHocRouteImport.update({
 const ChatRoute = ChatRouteImport.update({
   id: '/chat',
   path: '/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChonVaiTroRoute = ChonVaiTroRouteImport.update({
+  id: '/chon-vai-tro',
+  path: '/chon-vai-tro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HoSoRoute = HoSoRouteImport.update({
@@ -63,6 +69,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
+  '/chon-vai-tro': typeof ChonVaiTroRoute
   '/ho-so': typeof HoSoRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
@@ -73,6 +80,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
+  '/chon-vai-tro': typeof ChonVaiTroRoute
   '/ho-so': typeof HoSoRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
@@ -84,6 +92,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
+  '/chon-vai-tro': typeof ChonVaiTroRoute
   '/ho-so': typeof HoSoRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
@@ -96,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/bai-hoc'
     | '/chat'
+    | '/chon-vai-tro'
     | '/ho-so'
     | '/ket-noi'
     | '/ket-qua'
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/bai-hoc'
     | '/chat'
+    | '/chon-vai-tro'
     | '/ho-so'
     | '/ket-noi'
     | '/ket-qua'
@@ -116,6 +127,7 @@ export interface FileRouteTypes {
     | '/'
     | '/bai-hoc'
     | '/chat'
+    | '/chon-vai-tro'
     | '/ho-so'
     | '/ket-noi'
     | '/ket-qua'
@@ -127,6 +139,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BaiHocRoute: typeof BaiHocRoute
   ChatRoute: typeof ChatRoute
+  ChonVaiTroRoute: typeof ChonVaiTroRoute
   HoSoRoute: typeof HoSoRoute
   KetNoiRoute: typeof KetNoiRoute
   KetQuaRoute: typeof KetQuaRoute
@@ -155,6 +168,13 @@ declare module '@tanstack/react-router' {
       path: '/chat'
       fullPath: '/chat'
       preLoaderRoute: typeof ChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/chon-vai-tro': {
+      id: '/chon-vai-tro'
+      path: '/chon-vai-tro'
+      fullPath: '/chon-vai-tro'
+      preLoaderRoute: typeof ChonVaiTroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ho-so': {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BaiHocRoute: BaiHocRoute,
   ChatRoute: ChatRoute,
+  ChonVaiTroRoute: ChonVaiTroRoute,
   HoSoRoute: HoSoRoute,
   KetNoiRoute: KetNoiRoute,
   KetQuaRoute: KetQuaRoute,
