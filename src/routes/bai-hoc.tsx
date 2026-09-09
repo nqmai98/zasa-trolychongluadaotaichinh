@@ -13,7 +13,6 @@ import {
   Wallet,
 } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
-import { Progress } from "@/components/ui/progress";
 import { LessonQuiz } from "@/components/LessonQuiz";
 import { quizzes } from "@/lib/lesson-quizzes";
 import { usePoints } from "@/lib/zasa-store";
