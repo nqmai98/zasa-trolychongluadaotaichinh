@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Send } from "lucide-react";
 import { AppShell } from "@/components/AppShell";
+import { useActivities, useAddress } from "@/lib/zasa-store";
 import logo from "@/assets/zasa-shield.png";
 
 export const Route = createFileRoute("/chat")({
@@ -27,18 +28,29 @@ const suggestions = [
   "Có nên đọc mã OTP cho người khác?",
 ];
 
-function reply(q: string) {
+function reply(q: string, you: string) {
+  const You = you === "ông" ? "Ông" : "Bà";
   if (/otp|mã/i.test(q))
-    return "Bà tuyệt đối không đọc mã OTP cho ai, kể cả người xưng là nhân viên ngân hàng. Mã OTP giống chìa khoá két sắt của bà ạ.";
+    return `${You} tuyệt đối không đọc mã OTP cho ai, kể cả người xưng là nhân viên ngân hàng. Mã OTP giống chìa khoá két sắt của ${you} ạ.`;
   if (/công an|toà|toa an/i.test(q))
-    return "Công an không bao giờ yêu cầu chuyển tiền qua điện thoại. Bà hãy tắt máy và gọi ngay cho con cháu, hoặc gọi 113 để xác minh.";
-  return "Đây rất có thể là lừa đảo bà ạ. Bà đừng bấm vào đường link, đừng chuyển tiền. Bà có thể dán tin nhắn vào mục Kiểm tra để ZASA phân tích giúp.";
+    return `Công an không bao giờ yêu cầu chuyển tiền qua điện thoại. ${You} hãy tắt máy và gọi ngay cho con cháu, hoặc gọi 113 để xác minh.`;
+  return `Đây rất có thể là lừa đảo ${you} ạ. ${You} đừng bấm vào đường link, đừng chuyển tiền. ${You} có thể dán tin nhắn hoặc ảnh vào mục Kiểm tra để ZASA phân tích giúp.`;
 }
 
 function Chat() {
-  const [msgs, setMsgs] = useState<Msg[]>([
-    { id: 1, role: "zasa", text: "Chào bà ạ! Bà có tin nhắn hay cuộc gọi nào đáng ngờ không? Bà cứ kể cho cháu nghe nhé." },
-  ]);
+  const { you, You } = useAddress();
+  const { log } = useActivities();
+  const [msgs, setMsgs] = useState<Msg[]>([]);
+
+  useEffect(() => {
+    setMsgs([
+      {
+        id: 1,
+        role: "zasa",
+        text: `Chào ${you} ạ! ${You} có tin nhắn hay cuộc gọi nào đáng ngờ không? ${You} cứ kể cho cháu nghe nhé.`,
+      },
+    ]);
+  }, [you, You]);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
@@ -53,9 +65,10 @@ function Chat() {
     setMsgs((m) => [...m, { id: Date.now(), role: "user", text: t }]);
     setInput("");
     setTyping(true);
+    log({ kind: "chat", title: "Đã trò chuyện với trợ lý ZASA", desc: t.slice(0, 90) });
     setTimeout(() => {
       setTyping(false);
-      setMsgs((m) => [...m, { id: Date.now() + 1, role: "zasa", text: reply(t) }]);
+      setMsgs((m) => [...m, { id: Date.now() + 1, role: "zasa", text: reply(t, you) }]);
     }, 900);
   }
 
@@ -103,7 +116,7 @@ function Chat() {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Bà nhập câu hỏi tại đây…"
+          placeholder={`${You} nhập câu hỏi tại đây…`}
           aria-label="Nhập câu hỏi"
           className="h-14 flex-1 rounded-full border border-input bg-card px-5 text-lg outline-none focus:ring-2 focus:ring-ring"
         />
