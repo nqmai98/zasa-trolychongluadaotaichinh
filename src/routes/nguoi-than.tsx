@@ -42,7 +42,7 @@ export const Route = createFileRoute("/nguoi-than")({
   component: FamilyDashboard,
 });
 
-const TOTAL_LESSONS = 5;
+const TOTAL_LESSONS = 4;
 
 function FamilyDashboard() {
   const { profile } = useProfile();
