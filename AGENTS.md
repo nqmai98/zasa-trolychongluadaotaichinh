@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Keep anti-fraud prototype decisions in client-side mock rules so checks remain offline, clearly illustrative, and easy to revise without real integrations.
