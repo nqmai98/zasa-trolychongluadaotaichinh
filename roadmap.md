@@ -1,0 +1,3 @@
+- [ ] Add missing role-switch, partner, and service-plan screens from the uploaded brief.
+- [ ] Complete mock phone, transfer, QR, and consent-based alert flows.
+- [ ] Verify elder, family, and partner flows and current build status.
