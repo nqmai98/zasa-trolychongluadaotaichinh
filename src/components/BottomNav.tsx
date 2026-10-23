@@ -20,7 +20,7 @@ export function BottomNav() {
           activeProps={{ className: "text-primary font-semibold" }}
         >
           <Icon className="size-6" aria-hidden />
-          <span className="text-[11px] leading-tight">{label}</span>
+          <span className="text-center text-[0.6875rem] leading-tight">{label}</span>
         </Link>
       ))}
     </nav>

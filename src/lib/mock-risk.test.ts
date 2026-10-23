@@ -11,16 +11,30 @@ describe("ZASA demo risk rules", () => {
   });
 
   it("raises risk only when a transfer amount is over 20 million", () => {
-    expect(checkTransfer({ account: "555123", amount: 20_000_001, reason: "Mua đồ" }).level).toBe("danger");
-    expect(checkTransfer({ account: "555123", amount: 20_000_000, reason: "Mua đồ" }).level).toBe("safe");
+    expect(checkTransfer({ account: "555123", amount: 20_000_001, reason: "Mua đồ" }).level).toBe(
+      "danger",
+    );
+    expect(checkTransfer({ account: "555123", amount: 20_000_000, reason: "Mua đồ" }).level).toBe(
+      "safe",
+    );
   });
 
   it("flags the sample blacklisted account and scam-related transfer reasons", () => {
-    expect(checkTransfer({ account: "999888777666", amount: 1_000_000, reason: "Mua đồ" }).level).toBe("danger");
-    expect(checkTransfer({ account: "555123", amount: 1_000_000, reason: "Đầu tư" }).level).toBe("danger");
+    expect(
+      checkTransfer({ account: "999888777666", amount: 1_000_000, reason: "Mua đồ" }).level,
+    ).toBe("danger");
+    expect(checkTransfer({ account: "555123", amount: 1_000_000, reason: "Đầu tư" }).level).toBe(
+      "danger",
+    );
   });
 
   it("never labels an unverified QR code as safe", () => {
     expect(checkQr().level).toBe("warn");
+    expect(checkQr("STK 555123 - Tạp hóa").level).toBe("warn");
+  });
+
+  it("flags simulated QR codes pointing to strange links or blacklisted accounts", () => {
+    expect(checkQr("http://qua-tang.vip").level).toBe("danger");
+    expect(checkQr("STK 999888777666").level).toBe("danger");
   });
 });

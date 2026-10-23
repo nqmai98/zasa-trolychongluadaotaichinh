@@ -10,24 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as BaiHocRouteImport } from './routes/bai-hoc'
 import { Route as ChatRouteImport } from './routes/chat'
 import { Route as ChonVaiTroRouteImport } from './routes/chon-vai-tro'
+import { Route as DoiTacRouteImport } from './routes/doi-tac'
 import { Route as HoSoRouteImport } from './routes/ho-so'
+import { Route as HoTroRouteImport } from './routes/ho-tro'
 import { Route as KetNoiRouteImport } from './routes/ket-noi'
 import { Route as KetQuaRouteImport } from './routes/ket-qua'
 import { Route as KiemTraRouteImport } from './routes/kiem-tra'
 import { Route as NguoiThanRouteImport } from './routes/nguoi-than'
 import { Route as TrangChuRouteImport } from './routes/trang-chu'
+import { Route as BaiHocIndexRouteImport } from './routes/bai-hoc.index'
+import { Route as BaiHocLessonIdRouteImport } from './routes/bai-hoc.$lessonId'
+import { Route as CaiDatIndexRouteImport } from './routes/cai-dat.index'
+import { Route as CaiDatCanhBaoRouteImport } from './routes/cai-dat.canh-bao'
+import { Route as CaiDatChungRouteImport } from './routes/cai-dat.chung'
+import { Route as CaiDatDuLieuRouteImport } from './routes/cai-dat.du-lieu'
+import { Route as CaiDatGoiDichVuRouteImport } from './routes/cai-dat.goi-dich-vu'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BaiHocRoute = BaiHocRouteImport.update({
-  id: '/bai-hoc',
-  path: '/bai-hoc',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ChatRoute = ChatRouteImport.update({
@@ -40,9 +43,19 @@ const ChonVaiTroRoute = ChonVaiTroRouteImport.update({
   path: '/chon-vai-tro',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DoiTacRoute = DoiTacRouteImport.update({
+  id: '/doi-tac',
+  path: '/doi-tac',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HoSoRoute = HoSoRouteImport.update({
   id: '/ho-so',
   path: '/ho-so',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const HoTroRoute = HoTroRouteImport.update({
+  id: '/ho-tro',
+  path: '/ho-tro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const KetNoiRoute = KetNoiRouteImport.update({
@@ -70,94 +83,185 @@ const TrangChuRoute = TrangChuRouteImport.update({
   path: '/trang-chu',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BaiHocIndexRoute = BaiHocIndexRouteImport.update({
+  id: '/bai-hoc/',
+  path: '/bai-hoc/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BaiHocLessonIdRoute = BaiHocLessonIdRouteImport.update({
+  id: '/bai-hoc/$lessonId',
+  path: '/bai-hoc/$lessonId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaiDatIndexRoute = CaiDatIndexRouteImport.update({
+  id: '/cai-dat/',
+  path: '/cai-dat/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaiDatCanhBaoRoute = CaiDatCanhBaoRouteImport.update({
+  id: '/cai-dat/canh-bao',
+  path: '/cai-dat/canh-bao',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaiDatChungRoute = CaiDatChungRouteImport.update({
+  id: '/cai-dat/chung',
+  path: '/cai-dat/chung',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaiDatDuLieuRoute = CaiDatDuLieuRouteImport.update({
+  id: '/cai-dat/du-lieu',
+  path: '/cai-dat/du-lieu',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CaiDatGoiDichVuRoute = CaiDatGoiDichVuRouteImport.update({
+  id: '/cai-dat/goi-dich-vu',
+  path: '/cai-dat/goi-dich-vu',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
   '/chon-vai-tro': typeof ChonVaiTroRoute
+  '/doi-tac': typeof DoiTacRoute
   '/ho-so': typeof HoSoRoute
+  '/ho-tro': typeof HoTroRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
   '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
+  '/bai-hoc/$lessonId': typeof BaiHocLessonIdRoute
+  '/cai-dat/canh-bao': typeof CaiDatCanhBaoRoute
+  '/cai-dat/chung': typeof CaiDatChungRoute
+  '/cai-dat/du-lieu': typeof CaiDatDuLieuRoute
+  '/cai-dat/goi-dich-vu': typeof CaiDatGoiDichVuRoute
+  '/bai-hoc/': typeof BaiHocIndexRoute
+  '/cai-dat/': typeof CaiDatIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
   '/chon-vai-tro': typeof ChonVaiTroRoute
+  '/doi-tac': typeof DoiTacRoute
   '/ho-so': typeof HoSoRoute
+  '/ho-tro': typeof HoTroRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
   '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
+  '/bai-hoc/$lessonId': typeof BaiHocLessonIdRoute
+  '/cai-dat/canh-bao': typeof CaiDatCanhBaoRoute
+  '/cai-dat/chung': typeof CaiDatChungRoute
+  '/cai-dat/du-lieu': typeof CaiDatDuLieuRoute
+  '/cai-dat/goi-dich-vu': typeof CaiDatGoiDichVuRoute
+  '/bai-hoc': typeof BaiHocIndexRoute
+  '/cai-dat': typeof CaiDatIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/bai-hoc': typeof BaiHocRoute
   '/chat': typeof ChatRoute
   '/chon-vai-tro': typeof ChonVaiTroRoute
+  '/doi-tac': typeof DoiTacRoute
   '/ho-so': typeof HoSoRoute
+  '/ho-tro': typeof HoTroRoute
   '/ket-noi': typeof KetNoiRoute
   '/ket-qua': typeof KetQuaRoute
   '/kiem-tra': typeof KiemTraRoute
   '/nguoi-than': typeof NguoiThanRoute
   '/trang-chu': typeof TrangChuRoute
+  '/bai-hoc/$lessonId': typeof BaiHocLessonIdRoute
+  '/cai-dat/canh-bao': typeof CaiDatCanhBaoRoute
+  '/cai-dat/chung': typeof CaiDatChungRoute
+  '/cai-dat/du-lieu': typeof CaiDatDuLieuRoute
+  '/cai-dat/goi-dich-vu': typeof CaiDatGoiDichVuRoute
+  '/bai-hoc/': typeof BaiHocIndexRoute
+  '/cai-dat/': typeof CaiDatIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/bai-hoc'
     | '/chat'
     | '/chon-vai-tro'
+    | '/doi-tac'
     | '/ho-so'
+    | '/ho-tro'
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
     | '/nguoi-than'
     | '/trang-chu'
+    | '/bai-hoc/$lessonId'
+    | '/cai-dat/canh-bao'
+    | '/cai-dat/chung'
+    | '/cai-dat/du-lieu'
+    | '/cai-dat/goi-dich-vu'
+    | '/bai-hoc/'
+    | '/cai-dat/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/bai-hoc'
     | '/chat'
     | '/chon-vai-tro'
+    | '/doi-tac'
     | '/ho-so'
+    | '/ho-tro'
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
     | '/nguoi-than'
     | '/trang-chu'
+    | '/bai-hoc/$lessonId'
+    | '/cai-dat/canh-bao'
+    | '/cai-dat/chung'
+    | '/cai-dat/du-lieu'
+    | '/cai-dat/goi-dich-vu'
+    | '/bai-hoc'
+    | '/cai-dat'
   id:
     | '__root__'
     | '/'
-    | '/bai-hoc'
     | '/chat'
     | '/chon-vai-tro'
+    | '/doi-tac'
     | '/ho-so'
+    | '/ho-tro'
     | '/ket-noi'
     | '/ket-qua'
     | '/kiem-tra'
     | '/nguoi-than'
     | '/trang-chu'
+    | '/bai-hoc/$lessonId'
+    | '/cai-dat/canh-bao'
+    | '/cai-dat/chung'
+    | '/cai-dat/du-lieu'
+    | '/cai-dat/goi-dich-vu'
+    | '/bai-hoc/'
+    | '/cai-dat/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  BaiHocRoute: typeof BaiHocRoute
   ChatRoute: typeof ChatRoute
   ChonVaiTroRoute: typeof ChonVaiTroRoute
+  DoiTacRoute: typeof DoiTacRoute
   HoSoRoute: typeof HoSoRoute
+  HoTroRoute: typeof HoTroRoute
   KetNoiRoute: typeof KetNoiRoute
   KetQuaRoute: typeof KetQuaRoute
   KiemTraRoute: typeof KiemTraRoute
   NguoiThanRoute: typeof NguoiThanRoute
   TrangChuRoute: typeof TrangChuRoute
+  BaiHocLessonIdRoute: typeof BaiHocLessonIdRoute
+  CaiDatCanhBaoRoute: typeof CaiDatCanhBaoRoute
+  CaiDatChungRoute: typeof CaiDatChungRoute
+  CaiDatDuLieuRoute: typeof CaiDatDuLieuRoute
+  CaiDatGoiDichVuRoute: typeof CaiDatGoiDichVuRoute
+  BaiHocIndexRoute: typeof BaiHocIndexRoute
+  CaiDatIndexRoute: typeof CaiDatIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -167,13 +271,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/bai-hoc': {
-      id: '/bai-hoc'
-      path: '/bai-hoc'
-      fullPath: '/bai-hoc'
-      preLoaderRoute: typeof BaiHocRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/chat': {
@@ -190,11 +287,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChonVaiTroRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/doi-tac': {
+      id: '/doi-tac'
+      path: '/doi-tac'
+      fullPath: '/doi-tac'
+      preLoaderRoute: typeof DoiTacRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/ho-so': {
       id: '/ho-so'
       path: '/ho-so'
       fullPath: '/ho-so'
       preLoaderRoute: typeof HoSoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ho-tro': {
+      id: '/ho-tro'
+      path: '/ho-tro'
+      fullPath: '/ho-tro'
+      preLoaderRoute: typeof HoTroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ket-noi': {
@@ -232,20 +343,77 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TrangChuRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/bai-hoc/': {
+      id: '/bai-hoc/'
+      path: '/bai-hoc'
+      fullPath: '/bai-hoc/'
+      preLoaderRoute: typeof BaiHocIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/bai-hoc/$lessonId': {
+      id: '/bai-hoc/$lessonId'
+      path: '/bai-hoc/$lessonId'
+      fullPath: '/bai-hoc/$lessonId'
+      preLoaderRoute: typeof BaiHocLessonIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cai-dat/': {
+      id: '/cai-dat/'
+      path: '/cai-dat'
+      fullPath: '/cai-dat/'
+      preLoaderRoute: typeof CaiDatIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cai-dat/canh-bao': {
+      id: '/cai-dat/canh-bao'
+      path: '/cai-dat/canh-bao'
+      fullPath: '/cai-dat/canh-bao'
+      preLoaderRoute: typeof CaiDatCanhBaoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cai-dat/chung': {
+      id: '/cai-dat/chung'
+      path: '/cai-dat/chung'
+      fullPath: '/cai-dat/chung'
+      preLoaderRoute: typeof CaiDatChungRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cai-dat/du-lieu': {
+      id: '/cai-dat/du-lieu'
+      path: '/cai-dat/du-lieu'
+      fullPath: '/cai-dat/du-lieu'
+      preLoaderRoute: typeof CaiDatDuLieuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cai-dat/goi-dich-vu': {
+      id: '/cai-dat/goi-dich-vu'
+      path: '/cai-dat/goi-dich-vu'
+      fullPath: '/cai-dat/goi-dich-vu'
+      preLoaderRoute: typeof CaiDatGoiDichVuRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  BaiHocRoute: BaiHocRoute,
   ChatRoute: ChatRoute,
   ChonVaiTroRoute: ChonVaiTroRoute,
+  DoiTacRoute: DoiTacRoute,
   HoSoRoute: HoSoRoute,
+  HoTroRoute: HoTroRoute,
   KetNoiRoute: KetNoiRoute,
   KetQuaRoute: KetQuaRoute,
   KiemTraRoute: KiemTraRoute,
   NguoiThanRoute: NguoiThanRoute,
   TrangChuRoute: TrangChuRoute,
+  BaiHocLessonIdRoute: BaiHocLessonIdRoute,
+  CaiDatCanhBaoRoute: CaiDatCanhBaoRoute,
+  CaiDatChungRoute: CaiDatChungRoute,
+  CaiDatDuLieuRoute: CaiDatDuLieuRoute,
+  CaiDatGoiDichVuRoute: CaiDatGoiDichVuRoute,
+  BaiHocIndexRoute: BaiHocIndexRoute,
+  CaiDatIndexRoute: CaiDatIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

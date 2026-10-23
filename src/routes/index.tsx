@@ -1,7 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import logo from "@/assets/zasa-shield.png";
-import { useRole } from "@/lib/zasa-store";
+import { ROLE_HOME, useRole } from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,7 +37,7 @@ function Splash() {
     const go = setTimeout(
       () =>
         navigate({
-          to: role === "elder" ? "/trang-chu" : role === "family" ? "/nguoi-than" : "/chon-vai-tro",
+          to: role ? ROLE_HOME[role] : "/chon-vai-tro",
           replace: true,
         }),
       2200,

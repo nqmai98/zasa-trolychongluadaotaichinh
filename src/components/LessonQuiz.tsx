@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { CheckCircle2, PartyPopper, XCircle } from "lucide-react";
 import { toast } from "sonner";
-import { useActivities, useLessonResults, usePoints } from "@/lib/zasa-store";
+import { useActivities, useAddress, useLessonResults, usePoints } from "@/lib/zasa-store";
 
 export type Question = { q: string; options: string[]; answer: number; hint: string };
 
@@ -19,6 +19,7 @@ export function LessonQuiz({
   const { answered, award } = usePoints();
   const { record } = useLessonResults();
   const { log } = useActivities();
+  const { You, addr } = useAddress();
   const [picked, setPicked] = useState<Record<number, number>>({});
   const [attempts, setAttempts] = useState<Record<number, number>>({});
   const recorded = useRef(false);
@@ -46,10 +47,10 @@ export function LessonQuiz({
     if (oi === questions[qi]!.answer) {
       const gained = award(`${lessonId}-${qi}`, POINTS_PER_QUESTION);
       toast.success(
-        gained ? `Chính xác! +${gained} điểm` : "Chính xác! (câu này bạn đã được cộng điểm rồi)",
+        gained ? `Chính xác! +${gained} điểm` : `Chính xác! (câu này ${addr("{you}")} đã được cộng điểm rồi)`,
       );
     } else {
-      toast.error("Chưa đúng, điểm của bạn vẫn được giữ nguyên. Hãy thử lại nhé!");
+      toast.error(`Chưa đúng, điểm của ${addr("{you}")} vẫn được giữ nguyên. ${You} thử lại nhé!`);
     }
   };
 
@@ -69,7 +70,7 @@ export function LessonQuiz({
         return (
           <div key={q.q} className="rounded-2xl bg-secondary/40 p-4">
             <p className="text-lg font-semibold leading-snug text-primary">
-              Câu {qi + 1}. {q.q}
+              Câu {qi + 1}. {addr(q.q)}
               {already ? <span className="ml-2 text-sm text-success">(đã cộng điểm)</span> : null}
             </p>
             <div className="mt-3 space-y-2">
@@ -87,7 +88,7 @@ export function LessonQuiz({
                     onClick={() => choose(qi, oi)}
                     className={`flex w-full items-center gap-2 rounded-xl border border-border ${tone} px-4 py-3 text-left text-lg active:scale-[0.98]`}
                   >
-                    <span className="flex-1">{o}</span>
+                    <span className="flex-1">{addr(o)}</span>
                     {selected ? (
                       oi === q.answer ? (
                         <CheckCircle2 className="size-6 shrink-0 text-success" />
@@ -102,7 +103,7 @@ export function LessonQuiz({
             {chosen !== undefined ? (
               <p className={`mt-2 text-base ${isCorrect ? "text-success" : "text-warning"}`}>
                 {isCorrect ? `Đúng rồi! +${POINTS_PER_QUESTION} điểm. ` : "Chưa đúng. "}
-                {q.hint}
+                {addr(q.hint)}
               </p>
             ) : null}
           </div>
@@ -114,14 +115,14 @@ export function LessonQuiz({
           <PartyPopper className="mx-auto size-10 text-success" />
           <p className="mt-2 text-2xl font-extrabold text-primary">Hoàn thành bài học!</p>
           <p className="mt-1 text-lg text-foreground">
-            Bạn trả lời đúng ngay lần đầu{" "}
+            {You} trả lời đúng ngay lần đầu{" "}
             <strong className="text-success">
               {firstTryCorrect}/{questions.length}
             </strong>{" "}
             câu.
           </p>
           <p className="mt-1 text-base text-muted-foreground">
-            Điểm đã được cộng và con cháu của bạn cũng thấy kết quả này.
+            Điểm đã được cộng và con cháu của {addr("{you}")} cũng thấy kết quả này.
           </p>
         </div>
       ) : null}

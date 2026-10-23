@@ -3,32 +3,32 @@ import type { Question } from "@/components/LessonQuiz";
 export const quizzes: Record<string, Question[]> = {
   l4: [
     {
-      q: "Ai được phép biết mã OTP của bạn?",
+      q: "Ai được phép biết mã OTP của {you}?",
       options: ["Nhân viên ngân hàng", "Con cháu trong nhà", "Không ai cả"],
       answer: 2,
-      hint: "OTP chỉ dành riêng cho bạn, không đọc cho bất kỳ ai.",
+      hint: "OTP chỉ dành riêng cho {you}, không đọc cho bất kỳ ai.",
     },
     {
-      q: "Người lạ xin ảnh chụp CCCD để “làm hồ sơ nhận quà”, bạn nên làm gì?",
+      q: "Người lạ xin ảnh chụp CCCD để “làm hồ sơ nhận quà”, {you} nên làm gì?",
       options: ["Gửi ngay cho nhanh", "Từ chối và chặn liên hệ", "Gửi nhưng che ngày sinh"],
       answer: 1,
       hint: "Ảnh CCCD có thể bị dùng để vay tiền, mở tài khoản giả mạo.",
     },
     {
       q: "Đăng số điện thoại và ngày sinh công khai trên mạng xã hội có rủi ro gì?",
-      options: ["Không sao cả", "Kẻ gian dễ giả mạo, dò mật khẩu", "Giúp bạn bè tìm mình"],
+      options: ["Không sao cả", "Kẻ gian dễ giả mạo, dò mật khẩu", "Giúp bạn bè tìm {you}"],
       answer: 1,
       hint: "Thông tin cá nhân càng ít lộ, kẻ gian càng khó lừa.",
     },
     {
-      q: "Một người tự xưng công an gọi hỏi số tài khoản ngân hàng, bạn nên?",
+      q: "Một người tự xưng công an gọi hỏi số tài khoản ngân hàng, {you} nên làm gì?",
       options: ["Đọc số tài khoản", "Tắt máy và gọi cho con cháu", "Nhắn qua Zalo cho họ"],
       answer: 1,
       hint: "Cơ quan chức năng không làm việc qua điện thoại như vậy.",
     },
     {
       q: "Mật khẩu nào an toàn hơn?",
-      options: ["123456", "Ngày sinh của mình", "Chuỗi chữ và số riêng, khó đoán"],
+      options: ["123456", "Ngày sinh của {you}", "Chuỗi chữ và số riêng, khó đoán"],
       answer: 2,
       hint: "Không dùng ngày sinh hay dãy số dễ đoán làm mật khẩu.",
     },
@@ -38,7 +38,7 @@ export const quizzes: Record<string, Question[]> = {
       q: "Tin nhắn báo “tài khoản sẽ bị khoá trong 2 giờ” là dấu hiệu gì?",
       options: ["Ngân hàng chăm sóc khách hàng", "Hối thúc — dấu hiệu lừa đảo", "Tin nhắn bình thường"],
       answer: 1,
-      hint: "Kẻ gian luôn tạo áp lực thời gian để bạn không kịp suy nghĩ.",
+      hint: "Kẻ gian luôn tạo áp lực thời gian để {you} không kịp suy nghĩ.",
     },
     {
       q: "Đường link “vietcom-bank.xyz” có đáng tin không?",
@@ -47,7 +47,7 @@ export const quizzes: Record<string, Question[]> = {
       hint: "Ngân hàng thật không dùng tên miền lạ như .xyz.",
     },
     {
-      q: "Người lạ xin mã OTP để “xác minh giúp”, bạn nên làm gì?",
+      q: "Người lạ xin mã OTP để “xác minh giúp”, {you} nên làm gì?",
       options: ["Đọc mã cho họ", "Tuyệt đối không đưa", "Chụp màn hình gửi"],
       answer: 1,
       hint: "OTP là chìa khoá tài khoản, không đưa cho bất kỳ ai.",
@@ -66,7 +66,7 @@ export const quizzes: Record<string, Question[]> = {
         "Trả lời tin nhắn để hỏi lại",
       ],
       answer: 1,
-      hint: "Luôn xác minh bằng kênh chính thức bạn tự tìm, không dùng số trong tin nhắn.",
+      hint: "Luôn xác minh bằng kênh chính thức {you} tự tìm, không dùng số trong tin nhắn.",
     },
   ],
   l2: [
@@ -109,7 +109,7 @@ export const quizzes: Record<string, Question[]> = {
       hint: "Xác nhận trực tiếp là cách chắc chắn nhất.",
     },
     {
-      q: "Ai đó yêu cầu nộp “phí nhận thưởng” 500.000đ. Bạn nên?",
+      q: "Ai đó yêu cầu nộp “phí nhận thưởng” 500.000đ. {You} nên làm gì?",
       options: ["Nộp để nhận thưởng lớn", "Từ chối, đây là lừa đảo", "Nộp một nửa"],
       answer: 1,
       hint: "Giải thưởng thật không bao giờ bắt nộp phí trước.",
@@ -118,7 +118,7 @@ export const quizzes: Record<string, Question[]> = {
       q: "Nên chuyển tiền qua đâu?",
       options: ["Ứng dụng ngân hàng chính thức", "Link lạ gửi qua tin nhắn", "Người trung gian trên mạng"],
       answer: 0,
-      hint: "Chỉ dùng ứng dụng bạn tự cài từ kho ứng dụng chính thức.",
+      hint: "Chỉ dùng ứng dụng {you} tự cài từ kho ứng dụng chính thức.",
     },
     {
       q: "Kiểm tra tên người nhận trước khi bấm xác nhận là?",
