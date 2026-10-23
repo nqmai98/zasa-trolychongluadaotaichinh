@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
 import { Toaster } from "@/components/ui/sonner";
+import { displayBootScript, useDisplay } from "@/lib/zasa-store";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -81,8 +82,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "ZASA — Trợ lý chống lừa đảo tài chính trên Zalo" },
       {
         name: "description",
-        content:
-          "ZASA giúp người cao tuổi nhận biết và phòng tránh lừa đảo tài chính trên Zalo.",
+        content: "ZASA giúp người cao tuổi nhận biết và phòng tránh lừa đảo tài chính trên Zalo.",
       },
       { property: "og:title", content: "ZASA — Trợ lý chống lừa đảo tài chính" },
       {
@@ -98,7 +98,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;600;700;800&family=Nunito:wght@400;600;700;800&family=Noto+Serif:wght@400;600;700;800&display=swap",
       },
       { rel: "icon", type: "image/png", href: "/favicon.png" },
     ],
@@ -112,8 +112,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
+        <script dangerouslySetInnerHTML={{ __html: displayBootScript }} />
         <HeadContent />
       </head>
       <body>
@@ -126,6 +127,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useDisplay();
 
   return (
     <QueryClientProvider client={queryClient}>

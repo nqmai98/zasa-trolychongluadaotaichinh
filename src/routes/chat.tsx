@@ -6,15 +6,23 @@ import { useActivities, useAddress } from "@/lib/zasa-store";
 import logo from "@/assets/zasa-shield.png";
 
 export const Route = createFileRoute("/chat")({
+  // q: câu hỏi soạn sẵn, ví dụ khi bấm "Hỏi trợ lý AI" ở màn hình Kết quả
+  validateSearch: (search: Record<string, unknown>): { q?: string | undefined } => ({
+    q: typeof search["q"] === "string" && search["q"] ? search["q"] : undefined,
+  }),
   head: () => ({
     meta: [
       { title: "Chat với trợ lý ZASA" },
       {
         name: "description",
-        content: "Hỏi trợ lý ZASA bất cứ điều gì về tin nhắn, cuộc gọi hoặc yêu cầu chuyển tiền đáng ngờ.",
+        content:
+          "Hỏi trợ lý ZASA bất cứ điều gì về tin nhắn, cuộc gọi hoặc yêu cầu chuyển tiền đáng ngờ.",
       },
       { property: "og:title", content: "Chat với trợ lý ZASA" },
-      { property: "og:description", content: "Trợ lý trò chuyện thân thiện, giải thích đơn giản, dễ hiểu." },
+      {
+        property: "og:description",
+        content: "Trợ lý trò chuyện thân thiện, giải thích đơn giản, dễ hiểu.",
+      },
     ],
   }),
   component: Chat,
@@ -47,11 +55,12 @@ function Chat() {
       {
         id: 1,
         role: "zasa",
-        text: `Chào ${you} ạ! ${You} có tin nhắn hay cuộc gọi nào đáng ngờ không? ${You} cứ kể cho cháu nghe nhé.`,
+        text: `Chào ${you} ạ! ZASA là trợ lý chống lừa đảo của ${you}. ${You} có tin nhắn hay cuộc gọi nào đáng ngờ không? ${You} cứ kể cho ZASA nghe nhé.`,
       },
     ]);
   }, [you, You]);
-  const [input, setInput] = useState("");
+  const { q } = Route.useSearch();
+  const [input, setInput] = useState(q ?? "");
   const [typing, setTyping] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
@@ -84,7 +93,14 @@ function Chat() {
             </div>
           ) : (
             <div key={m.id} className="flex gap-2">
-              <img src={logo} alt="" width={768} height={768} loading="lazy" className="size-9 shrink-0" />
+              <img
+                src={logo}
+                alt=""
+                width={768}
+                height={768}
+                loading="lazy"
+                className="size-9 shrink-0"
+              />
               <p className="max-w-[85%] text-lg leading-relaxed text-foreground">{m.text}</p>
             </div>
           ),

@@ -3,7 +3,15 @@ import { useRef, useState, useEffect } from "react";
 import { Award, Camera, Save, UserCircle2 } from "lucide-react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/AppShell";
-import { PROVINCES, useProfile, usePoints, useActivities, type Profile } from "@/lib/zasa-store";
+import {
+  PROVINCES,
+  addressOf,
+  useAddress,
+  useMyProfile,
+  usePoints,
+  useActivities,
+  type Profile,
+} from "@/lib/zasa-store";
 
 export const Route = createFileRoute("/ho-so")({
   head: () => ({
@@ -15,16 +23,18 @@ export const Route = createFileRoute("/ho-so")({
           "Chỉnh sửa họ tên, ngày sinh, số điện thoại, tỉnh thành, đổi ảnh đại diện và xem điểm tích lũy khi học.",
       },
       { property: "og:title", content: "Hồ sơ của tôi — ZASA" },
-      { property: "og:description", content: "Thông tin cá nhân và điểm tích lũy của bạn trên ZASA." },
+      { property: "og:description", content: "Thông tin cá nhân và điểm tích lũy trên ZASA." },
     ],
   }),
   component: ProfilePage,
 });
 
 function ProfilePage() {
-  const { profile, setProfile, ready } = useProfile();
+  const { profile, setProfile, ready, role } = useMyProfile();
+  const isFamily = role === "family";
   const { points } = usePoints();
   const { log } = useActivities();
+  const { you, You } = useAddress();
   const [form, setForm] = useState<Profile>(profile);
   const fileRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +47,7 @@ function ProfilePage() {
   const pickAvatar = (file?: File | null) => {
     if (!file) return;
     if (file.size > 3_000_000) {
-      toast.error("Ảnh quá lớn, hãy chọn ảnh nhỏ hơn 3MB.");
+      toast.error(`Ảnh hơi lớn, ${you} chọn giúp ảnh nhỏ hơn 3MB nhé.`);
       return;
     }
     const reader = new FileReader();
@@ -52,11 +62,17 @@ function ProfilePage() {
 
   const save = () => {
     if (!form.name.trim()) {
-      toast.error("Vui lòng nhập họ tên");
+      toast.error(`${You} nhập giúp họ tên nhé.`);
       return;
     }
     setProfile({ ...form, name: form.name.trim(), phone: form.phone.trim() });
-    log({ kind: "profile", title: "Đã cập nhật hồ sơ", desc: `${form.name.trim()} · ${form.province}` });
+    // Lịch sử hoạt động là của người cao tuổi; hồ sơ con cháu không ghi vào đó
+    if (!isFamily)
+      log({
+        kind: "profile",
+        title: "Đã cập nhật hồ sơ",
+        desc: `${form.name.trim()} · ${form.province}`,
+      });
     toast.success("Đã lưu thông tin cá nhân");
   };
 
@@ -90,16 +106,18 @@ function ProfilePage() {
         <p className="text-2xl font-bold text-primary">{form.name || "Chưa có tên"}</p>
       </div>
 
-      <div className="mt-4 flex items-center gap-4 rounded-3xl border border-border bg-secondary/60 p-5 shadow-soft">
-        <span className="grid size-14 place-items-center rounded-2xl bg-card text-primary">
-          <Award className="size-8" />
-        </span>
-        <div>
-          <p className="text-lg text-muted-foreground">Điểm tích lũy khi học</p>
-          <p className="text-3xl font-extrabold text-primary">{points} điểm</p>
-          <p className="text-base text-muted-foreground">Cấp độ: {level}</p>
+      {isFamily ? null : (
+        <div className="mt-4 flex items-center gap-4 rounded-3xl border border-border bg-secondary/60 p-5 shadow-soft">
+          <span className="grid size-14 place-items-center rounded-2xl bg-card text-primary">
+            <Award className="size-8" />
+          </span>
+          <div>
+            <p className="text-lg text-muted-foreground">Điểm tích lũy khi học</p>
+            <p className="text-3xl font-extrabold text-primary">{points} điểm</p>
+            <p className="text-base text-muted-foreground">Cấp độ: {level}</p>
+          </div>
         </div>
-      </div>
+      )}
 
       <h2 className="mt-8 text-2xl font-bold text-primary">Thông tin cá nhân</h2>
       <div className="mt-3 space-y-4">
@@ -111,12 +129,9 @@ function ProfilePage() {
             maxLength={80}
           />
         </Field>
-        <Field label="Giới tính (trợ lý sẽ xưng hô theo lựa chọn này)">
+        <Field label="Xưng hô">
           <div className="flex gap-3">
-            {([
-              { v: "ba", label: "Bà" },
-              { v: "ong", label: "Ông" },
-            ] as const).map((o) => (
+            {(isFamily ? FAMILY_FORMS : ELDER_FORMS).map((o) => (
               <button
                 key={o.v}
                 type="button"
@@ -132,7 +147,7 @@ function ProfilePage() {
             ))}
           </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            Trợ lý ZASA sẽ gọi bạn là “{form.gender === "ong" ? "ông" : "bà"}”.
+            Sau khi lưu, ZASA sẽ gọi là “{addressOf(form).title}” ở mọi màn hình.
           </p>
         </Field>
         <Field label="Ngày tháng năm sinh">
@@ -178,6 +193,16 @@ function ProfilePage() {
     </AppShell>
   );
 }
+
+const ELDER_FORMS = [
+  { v: "ba", label: "Bà" },
+  { v: "ong", label: "Ông" },
+] as const;
+
+const FAMILY_FORMS = [
+  { v: "chi", label: "Chị" },
+  { v: "anh", label: "Anh" },
+] as const;
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
