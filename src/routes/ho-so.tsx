@@ -136,7 +136,7 @@ function ProfilePage() {
                 key={o.v}
                 type="button"
                 onClick={() => set("gender", o.v)}
-                className={`h-14 flex-1 rounded-2xl border text-lg font-bold ${
+                className={`min-h-14 flex-1 rounded-2xl border px-3 py-2 text-center text-lg font-bold leading-snug ${
                   form.gender === o.v
                     ? "border-primary bg-primary text-primary-foreground"
                     : "border-border bg-card text-primary"

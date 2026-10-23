@@ -213,7 +213,7 @@ function FamilyDashboard() {
             <button
               type="button"
               onClick={() => setAdding(true)}
-              className="mt-3 flex h-14 w-full items-center justify-center gap-2 rounded-full border-2 border-dashed border-primary bg-card text-lg font-bold text-primary"
+              className="mt-3 flex min-h-14 w-full items-center justify-center gap-2 rounded-full border-2 border-dashed border-primary bg-card text-lg font-bold text-primary py-2 px-4 text-center leading-snug"
             >
               <UserPlus className="size-6" /> Thêm người cao tuổi
             </button>
@@ -294,7 +294,7 @@ function AddElderForm({
       <button
         type="submit"
         disabled={!code.trim()}
-        className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground disabled:opacity-50"
+        className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground disabled:opacity-50 py-2 px-4 text-center leading-snug"
       >
         <UserPlus className="size-5" /> Kết nối
       </button>
@@ -329,12 +329,12 @@ function ElderDetail({
         <div className="mt-4 flex gap-3">
           <a
             href={tel}
-            className="flex h-12 flex-1 items-center justify-center gap-2 rounded-full bg-primary text-base font-bold text-primary-foreground"
+            className="flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full bg-primary text-base font-bold text-primary-foreground py-2 px-4 text-center leading-snug whitespace-normal"
           >
             <PhoneCall className="size-5" /> Gọi ngay
           </a>
           <AlertDialog>
-            <AlertDialogTrigger className="flex h-12 items-center justify-center gap-2 rounded-full border border-border bg-card px-4 text-base font-semibold text-primary">
+            <AlertDialogTrigger className="flex min-h-12 items-center justify-center gap-2 rounded-full border border-border bg-card px-4 text-base font-semibold text-primary py-2 text-center leading-snug whitespace-normal">
               <UserMinus className="size-5" /> Ngừng theo dõi
             </AlertDialogTrigger>
             <AlertDialogContent className="rounded-3xl">
@@ -347,12 +347,12 @@ function ElderDetail({
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="h-12 rounded-full text-base">
+                <AlertDialogCancel className="min-h-12 rounded-full text-base py-2 px-4 text-center leading-snug whitespace-normal">
                   Giữ lại
                 </AlertDialogCancel>
                 <AlertDialogAction
                   onClick={onUnfollow}
-                  className="h-12 rounded-full bg-destructive text-base text-destructive-foreground hover:bg-destructive/90"
+                  className="min-h-12 rounded-full bg-destructive text-base text-destructive-foreground hover:bg-destructive/90 py-2 px-4 text-center leading-snug whitespace-normal"
                 >
                   Ngừng theo dõi
                 </AlertDialogAction>

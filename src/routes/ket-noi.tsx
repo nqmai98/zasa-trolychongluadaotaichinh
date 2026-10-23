@@ -11,10 +11,14 @@ export const Route = createFileRoute("/ket-noi")({
       { title: "Kết nối người thân — ZASA" },
       {
         name: "description",
-        content: "Ông bà và con cháu kết nối với nhau để cùng theo dõi và cảnh báo lừa đảo kịp thời.",
+        content:
+          "Ông bà và con cháu kết nối với nhau để cùng theo dõi và cảnh báo lừa đảo kịp thời.",
       },
       { property: "og:title", content: "Kết nối người thân — ZASA" },
-      { property: "og:description", content: "Kết nối với con cháu để nhận cảnh báo lừa đảo kịp thời." },
+      {
+        property: "og:description",
+        content: "Kết nối với con cháu để nhận cảnh báo lừa đảo kịp thời.",
+      },
     ],
   }),
   component: Connect,
@@ -70,7 +74,9 @@ function Connect() {
       <div className="space-y-4">
         <div className="rounded-3xl bg-secondary p-6 text-center shadow-soft">
           <p className="text-lg text-secondary-foreground">Mã kết nối của {you}</p>
-          <p className="mt-2 text-4xl font-extrabold tracking-[0.2em] text-primary">ZS-4821</p>
+          <p className="mt-2 text-4xl font-extrabold leading-tight tracking-[0.2em] text-primary">
+            ZS-4821
+          </p>
           <button
             type="button"
             onClick={copyCode}
@@ -82,8 +88,8 @@ function Connect() {
         </div>
 
         <p className="text-lg leading-relaxed text-foreground">
-          {you === "ông" ? "Ông" : "Bà"} đọc mã này cho con cháu để họ nhận cảnh báo khi{" "}
-          {you} gặp tin nhắn đáng ngờ.
+          {you === "ông" ? "Ông" : "Bà"} đọc mã này cho con cháu để họ nhận cảnh báo khi {you} gặp
+          tin nhắn đáng ngờ.
         </p>
 
         <h2 className="text-xl font-bold text-primary">Người thân đã kết nối</h2>
@@ -162,7 +168,7 @@ function Connect() {
             <button
               type="button"
               onClick={addRelative}
-              className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground"
+              className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground py-2 px-4 text-center leading-snug"
             >
               <UserPlus className="size-5" /> Lưu người thân
             </button>
@@ -171,7 +177,7 @@ function Connect() {
           <button
             type="button"
             onClick={() => setAdding(true)}
-            className="flex h-16 w-full items-center justify-center gap-2 rounded-full border border-border bg-card text-xl font-bold text-primary shadow-soft"
+            className="flex min-h-16 w-full items-center justify-center gap-2 rounded-full border border-border bg-card text-xl font-bold text-primary shadow-soft py-2 px-4 text-center leading-snug"
           >
             <UserPlus className="size-6" /> Thêm người thân
           </button>

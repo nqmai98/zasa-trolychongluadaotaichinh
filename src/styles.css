@@ -198,8 +198,16 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
+    /* Chuỗi dài không có dấu cách (đường link, mã) tự xuống dòng thay vì tràn khỏi ô chứa */
+    overflow-wrap: break-word;
   }
 
+  /* Icon trong nút giữ nguyên kích thước khi chữ bên cạnh xuống dòng */
+  button svg,
+  a svg,
+  label svg {
+    flex-shrink: 0;
+  }
 }
 
 @utility input-zasa {

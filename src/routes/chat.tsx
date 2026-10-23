@@ -134,7 +134,7 @@ function Chat() {
           onChange={(e) => setInput(e.target.value)}
           placeholder={`${You} nhập câu hỏi tại đây…`}
           aria-label="Nhập câu hỏi"
-          className="h-14 flex-1 rounded-full border border-input bg-card px-5 text-lg outline-none focus:ring-2 focus:ring-ring"
+          className="h-14 min-w-0 flex-1 rounded-full border border-input bg-card px-5 text-lg outline-none focus:ring-2 focus:ring-ring"
         />
         <button
           type="submit"

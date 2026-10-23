@@ -129,7 +129,7 @@ function GeneralSettings() {
           reset();
           toast.success("Đã đưa hiển thị về mặc định");
         }}
-        className="mt-8 flex h-14 w-full items-center justify-center gap-2 rounded-full border border-border bg-card text-lg font-bold text-primary shadow-soft"
+        className="mt-8 flex min-h-14 w-full items-center justify-center gap-2 rounded-full border border-border bg-card text-lg font-bold text-primary shadow-soft py-2 px-4 text-center leading-snug"
       >
         <RotateCcw className="size-5" /> Khôi phục mặc định
       </button>

@@ -51,7 +51,7 @@ function LessonPage() {
           </p>
           <Link
             to="/bai-hoc"
-            className="mt-5 flex h-14 w-full items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground"
+            className="mt-5 flex min-h-14 w-full items-center justify-center rounded-full bg-primary text-lg font-bold text-primary-foreground py-2 px-4 text-center leading-snug"
           >
             Xem các bài học khác
           </Link>
@@ -196,13 +196,13 @@ function LessonContent({ lesson }: { lesson: Lesson }) {
         <div className="mt-3 grid grid-cols-2 gap-3">
           <Link
             to="/kiem-tra"
-            className="flex h-14 items-center justify-center gap-2 rounded-full bg-primary text-base font-bold text-primary-foreground"
+            className="flex min-h-14 items-center justify-center gap-2 rounded-full bg-primary text-base font-bold text-primary-foreground py-2 px-4 text-center leading-snug"
           >
             <ShieldCheck className="size-5" /> Kiểm tra
           </Link>
           <Link
             to="/chat"
-            className="flex h-14 items-center justify-center gap-2 rounded-full border border-border bg-card text-base font-bold text-primary"
+            className="flex min-h-14 items-center justify-center gap-2 rounded-full border border-border bg-card text-base font-bold text-primary py-2 px-4 text-center leading-snug"
           >
             <MessageCircle className="size-5" /> Hỏi ZASA
           </Link>
@@ -311,7 +311,7 @@ function ReadAloud({ text }: { text: string }) {
       type="button"
       onClick={toggle}
       aria-pressed={speaking}
-      className="mt-4 flex h-14 w-full items-center justify-center gap-2 rounded-full border border-border bg-card text-lg font-bold text-primary shadow-soft"
+      className="mt-4 flex min-h-14 w-full items-center justify-center gap-2 rounded-full border border-border bg-card text-lg font-bold text-primary shadow-soft py-2 px-4 text-center leading-snug"
     >
       {speaking ? <Square className="size-5" /> : <Volume2 className="size-6" />}
       {speaking ? "Dừng đọc" : "Nghe đọc bài học"}

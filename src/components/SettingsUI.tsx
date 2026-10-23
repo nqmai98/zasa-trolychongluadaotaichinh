@@ -101,7 +101,11 @@ export function ChoiceGroup<T extends string>({
     <div
       role="radiogroup"
       aria-label={label}
-      className={`grid gap-2 ${columns === 3 ? "grid-cols-3" : "grid-cols-2"}`}
+      className={`grid gap-2 ${
+        columns === 3
+          ? "grid-cols-[repeat(auto-fit,minmax(6.5rem,1fr))]"
+          : "grid-cols-[repeat(auto-fit,minmax(9rem,1fr))]"
+      }`}
     >
       {options.map((o) => {
         const active = value === o.id;

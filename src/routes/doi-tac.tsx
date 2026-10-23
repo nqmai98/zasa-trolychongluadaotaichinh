@@ -97,7 +97,7 @@ function PartnerDashboard() {
           <div
             role="radiogroup"
             aria-label="Loại đối tác"
-            className="inline-flex rounded-full border border-border bg-muted p-1"
+            className="flex flex-wrap gap-1 rounded-3xl border border-border bg-muted p-1"
           >
             {TYPES.map((t) => (
               <button
@@ -117,7 +117,7 @@ function PartnerDashboard() {
           <button
             type="button"
             onClick={exportEsg}
-            className="inline-flex h-11 items-center gap-2 rounded-full bg-primary px-5 text-base font-bold text-primary-foreground shadow-soft"
+            className="inline-flex min-h-11 items-center gap-2 rounded-full bg-primary px-5 text-base font-bold text-primary-foreground shadow-soft py-2 text-center leading-snug"
           >
             <Download className="size-5" /> Xuất báo cáo ESG
           </button>
@@ -423,14 +423,14 @@ function SkillBar({
 }) {
   return (
     <div className="mt-2 flex items-center gap-3">
-      <span className="w-10 shrink-0 text-sm text-muted-foreground">{label}</span>
+      <span className="min-w-10 shrink-0 text-sm text-muted-foreground">{label}</span>
       <div className="h-3 flex-1 overflow-hidden rounded-full bg-muted">
         <div
           className={`h-full rounded-full ${className}`}
           style={{ width: `${Math.min(value, 100)}%` }}
         />
       </div>
-      <span className="w-16 shrink-0 text-right text-sm font-semibold tabular-nums text-foreground">
+      <span className="min-w-16 shrink-0 whitespace-nowrap text-right text-sm font-semibold tabular-nums text-foreground">
         {value}
         {unit === "%" ? "%" : " điểm"}
       </span>

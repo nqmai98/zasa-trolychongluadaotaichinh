@@ -65,7 +65,7 @@ const iconFor = {
 } as const;
 
 const btnCls =
-  "flex h-16 w-full items-center justify-center gap-2 rounded-full border text-lg font-bold shadow-soft";
+  "flex min-h-16 w-full items-center justify-center gap-2 rounded-full border text-lg font-bold shadow-soft py-2 px-4 text-center leading-snug";
 
 function DataPage() {
   const { activities, clear } = useActivities();
@@ -164,7 +164,7 @@ function DataPage() {
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
-                <AlertDialogCancel className="h-12 rounded-full text-base">
+                <AlertDialogCancel className="min-h-12 rounded-full text-base py-2 px-4 text-center leading-snug whitespace-normal">
                   Giữ lại
                 </AlertDialogCancel>
                 <AlertDialogAction
@@ -172,7 +172,7 @@ function DataPage() {
                     resetAllData();
                     window.location.assign("/");
                   }}
-                  className="h-12 rounded-full bg-destructive text-base text-destructive-foreground hover:bg-destructive/90"
+                  className="min-h-12 rounded-full bg-destructive text-base text-destructive-foreground hover:bg-destructive/90 py-2 px-4 text-center leading-snug whitespace-normal"
                 >
                   Xóa hết
                 </AlertDialogAction>

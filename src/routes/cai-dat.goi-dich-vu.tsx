@@ -99,7 +99,7 @@ function PlanPage() {
             <button
               type="button"
               disabled
-              className="flex h-14 w-full items-center justify-center rounded-full border border-border bg-card text-lg font-semibold text-muted-foreground"
+              className="flex min-h-14 w-full items-center justify-center rounded-full border border-border bg-card text-lg font-semibold text-muted-foreground py-2 px-4 text-center leading-snug"
             >
               {isPremium ? "Gói cơ bản" : "Gói hiện tại"}
             </button>
@@ -117,7 +117,7 @@ function PlanPage() {
           action={
             isPremium ? (
               <div className="space-y-2">
-                <p className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-accent text-lg font-bold text-accent-foreground">
+                <p className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-accent text-lg font-bold text-accent-foreground py-2 px-4 text-center leading-snug">
                   <Crown className="size-5" /> Đang dùng thử · còn {daysLeft} ngày
                 </p>
                 <button
@@ -135,7 +135,7 @@ function PlanPage() {
               <button
                 type="button"
                 onClick={() => setInvoiceOpen(true)}
-                className="flex h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground shadow-soft"
+                className="flex min-h-14 w-full items-center justify-center gap-2 rounded-full bg-primary text-lg font-bold text-primary-foreground shadow-soft py-2 px-4 text-center leading-snug"
               >
                 <Sparkles className="size-5" /> Dùng thử miễn phí {TRIAL_DAYS} ngày
               </button>
@@ -187,7 +187,7 @@ function PlanCard({
 
       <div className="mt-4">{action}</div>
 
-      <p className="mt-5 text-4xl font-extrabold text-foreground">{price}</p>
+      <p className="mt-5 text-4xl font-extrabold leading-tight text-foreground">{price}</p>
       <p className="text-base text-muted-foreground">{priceNote}</p>
 
       <ul className="mt-5 space-y-3">
@@ -256,14 +256,14 @@ function TrialInvoice({
           <button
             type="button"
             onClick={() => onOpenChange(false)}
-            className="h-12 flex-1 rounded-full text-lg font-semibold text-muted-foreground sm:flex-none sm:px-6"
+            className="min-h-12 flex-1 rounded-full text-lg font-semibold text-muted-foreground sm:flex-none sm:px-6 py-2 text-center leading-snug"
           >
             Hủy
           </button>
           <button
             type="button"
             onClick={onConfirm}
-            className="h-12 flex-1 rounded-full bg-primary text-lg font-bold text-primary-foreground sm:flex-none sm:px-6"
+            className="min-h-12 flex-1 rounded-full bg-primary text-lg font-bold text-primary-foreground sm:flex-none sm:px-6 py-2 text-center leading-snug"
           >
             Bắt đầu dùng thử
           </button>

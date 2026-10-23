@@ -127,7 +127,7 @@ function Result() {
         {verdict.level === "danger" ? (
           <Link
             to="/ket-noi"
-            className={`flex h-16 items-center justify-center gap-2 rounded-full text-xl font-bold shadow-soft ${level.banner}`}
+            className={`flex min-h-16 items-center justify-center gap-2 rounded-full text-xl font-bold shadow-soft ${level.banner} py-2 px-4 text-center leading-snug`}
           >
             <PhoneCall className="size-6" /> Báo cho người thân
           </Link>
@@ -135,7 +135,7 @@ function Result() {
         {verdict.level === "warn" ? (
           <Link
             to="/ket-noi"
-            className="flex h-16 items-center justify-center gap-2 rounded-full border-2 border-primary bg-card text-xl font-bold text-primary shadow-soft"
+            className="flex min-h-16 items-center justify-center gap-2 rounded-full border-2 border-primary bg-card text-xl font-bold text-primary shadow-soft py-2 px-4 text-center leading-snug"
           >
             <PhoneCall className="size-6" /> Hỏi ý kiến người thân
           </Link>
@@ -144,7 +144,7 @@ function Result() {
           <Link
             to="/chat"
             search={{ q: askAi }}
-            className="flex h-16 items-center justify-center gap-2 rounded-full border border-border bg-card text-xl font-bold text-primary shadow-soft"
+            className="flex min-h-16 items-center justify-center gap-2 rounded-full border border-border bg-card text-xl font-bold text-primary shadow-soft py-2 px-4 text-center leading-snug"
           >
             <MessageCircle className="size-6" /> Hỏi trợ lý AI
           </Link>
@@ -152,7 +152,7 @@ function Result() {
         <Link
           to="/kiem-tra"
           search={{ tab: type }}
-          className={`flex h-16 items-center justify-center gap-2 rounded-full text-xl font-bold shadow-soft ${
+          className={`flex min-h-16 items-center justify-center gap-2 rounded-full px-4 py-2 text-center text-xl font-bold leading-snug shadow-soft ${
             verdict.level === "safe"
               ? "bg-primary text-primary-foreground"
               : "border border-border bg-card text-primary"
